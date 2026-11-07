@@ -1,0 +1,41 @@
+# Node Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build Outputs
+dist/
+dist-ssr/
+build/
+*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment & Secret files
+.env
+.env.*
+!.env.example
+
+# Temporary / Scratch files & Large Raw PDFs
+temp_pages/
+pdf_pages/
+*.pdf
+
+# Editor & System Files
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
