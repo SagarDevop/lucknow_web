@@ -1,53 +1,82 @@
 import React from 'react';
+import ScatteredDecor from './ScatteredDecor';
 
 const steps = [
   {
     num: '01',
-    title: 'Site Audit & Heat Calculations',
-    desc: '3D laser survey, architectural load study, solar radiation analysis, and ASHRAE-compliant CFM/tonnage sizing to ensure maximum operational efficiency.',
+    title: 'Consultation & Spatial Audit',
+    desc: 'Detailed structural load assessment, heat ingress modeling, airflow calculations and client program alignment.',
+    spec: 'METRIC: HEAT LOAD (TR)',
   },
   {
     num: '02',
-    title: '3D MEP & Joinery Coordination',
-    desc: 'Clash detection across ductwork, cable trays, sprinkler lines, and ceiling finishes before fabrication, preventing on-site structural interferences.',
+    title: 'Engineering & BIM Routing',
+    desc: '3D clash-detection across HVAC ducts, cable trays, hydrants and plumbing conduits in compliance with IS and NBC codes.',
+    spec: 'TOLERANCE: 0.0 CLASH',
   },
   {
     num: '03',
-    title: 'Off-Site Precision Fabrication',
-    desc: 'Precision pre-insulated ducting, modular electrical panels, and bespoke millwork crafted in controlled workshop environments for pristine finish quality.',
+    title: 'Procurement & OEM Quality',
+    desc: 'Direct sourcing of Tier-1 DAIKIN, VOLTAS, BLUE STAR, SCHNEIDER and SIEMENS equipment with calibrated factory test reports.',
+    spec: 'STANDARD: TIER-1 OEM',
   },
   {
     num: '04',
-    title: 'Systematic On-Site Installation',
-    desc: 'Deployment of specialized MEP technicians and master carpenters adhering to strict safety protocols, scaffolding regulations, and milestone timelines.',
+    title: 'Execution & Supervision',
+    desc: 'Certified site technicians executing torque-tested pipe joints, fire-stopped wall penetrations and laser-leveled ceiling grids.',
+    spec: 'AUDIT: QA/QC CHECKLIST',
   },
   {
     num: '05',
     title: 'Testing, Commissioning & Handover',
-    desc: 'Pressure testing of refrigerant lines, dielectric insulation checks, CFM anemometer balancing, fire safety sign-off, and operational documentation.',
+    desc: 'Air volume balancing (TAB), hydrostatic pressure tests, electrical insulation megger audits, documented operational handover.',
+    spec: 'SIGN-OFF: COMPREHENSIVE',
   },
 ];
 
 export default function Methodology() {
   return (
-    <section className="section-py bg-secondary" id="methodology">
-      <div className="container">
-        <div className="section-header text-center">
-          <div className="section-eyebrow">Our Methodology</div>
-          <h2 className="section-title">The Five-Stage <span className="highlight-keyword">Execution Standard</span></h2>
-          <p className="section-subtitle">
-            How we eliminate project risk, prevent budget deviations, and deliver institutional-grade engineering every single time.
+    <section className="cad-methodology-section" id="methodology">
+      <ScatteredDecor section="methodology" />
+
+      <div className="cad-editorial-container">
+        {/* Section Header */}
+        <div className="cad-spec-header">
+          <span className="cad-spec-dot"></span>
+          <span className="cad-spec-code">PIPELINE // AMB-SOP-05</span>
+          <span className="cad-spec-divider">|</span>
+          <span className="cad-spec-title">RIGOROUS 5-STAGE CONTRACTING PROTOCOL</span>
+        </div>
+
+        <div className="cad-methodology-heading-box">
+          <h2 className="cad-methodology-title">
+            THE EXECUTION CONDUIT &bull; <span className="cad-headline-accent">FIELD PROTOCOL</span>
+          </h2>
+          <p className="cad-methodology-lead">
+            Every square foot of engineering execution follows our verifiable milestone pipeline, minimizing turnaround time while ensuring zero punch-list defects.
           </p>
         </div>
 
-        <div className="methodology-grid">
-          {steps.map((step, idx) => (
-            <div key={idx} className="methodology-card">
-              <div className="step-num">{step.num}</div>
-              <h4>{step.title}</h4>
-              <p>{step.desc}</p>
-            </div>
-          ))}
+        {/* Connected Technical Flow Diagram */}
+        <div className="cad-conduit-pipeline">
+          {/* Main flow line across all nodes */}
+          <div className="cad-conduit-backbone"></div>
+
+          <div className="cad-conduit-stations">
+            {steps.map((st, idx) => (
+              <div key={idx} className="cad-conduit-station">
+                <div className="cad-station-indicator">
+                  <span className="cad-station-num">{st.num}</span>
+                  <span className="cad-station-halo"></span>
+                </div>
+                <div className="cad-station-card">
+                  <span className="cad-station-metric">{st.spec}</span>
+                  <h3 className="cad-station-title">{st.title}</h3>
+                  <p className="cad-station-desc">{st.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

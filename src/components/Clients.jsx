@@ -1,134 +1,84 @@
 import React from 'react';
+import ScatteredDecor from './ScatteredDecor';
 
 const clientsData = [
-  {
-    name: 'NEXA',
-    sector: 'Luxury Showrooms',
-    logo: '/images/logos/nexa.svg',
-  },
-  {
-    name: 'Maruti Suzuki',
-    sector: 'Automotive Network',
-    logo: '/images/logos/maruti-suzuki.svg',
-  },
-  {
-    name: 'HDFC Bank',
-    sector: 'Commercial Branches',
-    logo: '/images/logos/hdfc-bank.svg',
-  },
-  {
-    name: 'ICICI Bank',
-    sector: 'Regional Hubs',
-    logo: '/images/logos/icici-bank.svg',
-  },
-  {
-    name: 'Axis Bank',
-    sector: 'Financial Centres',
-    logo: '/images/logos/axis-bank.svg',
-  },
-  {
-    name: 'State Bank of India',
-    sector: 'Institutional Fit-Outs',
-    logo: '/images/logos/sbi.svg',
-  },
-  {
-    name: 'Reliance Digital',
-    sector: 'Electronics Mega-Stores',
-    logo: '/images/logos/reliance-digital.svg',
-  },
-  {
-    name: 'Reliance Trends',
-    sector: 'Apparel Retail Chains',
-    logo: '/images/logos/reliance-trends.svg',
-  },
-  {
-    name: 'Smart Bazaar',
-    sector: 'Hypermarket Commercial HVAC',
-    logo: '/images/logos/smart-bazaar.svg',
-  },
-  {
-    name: 'Tata Motors',
-    sector: 'Automotive Facilities',
-    logo: '/images/logos/tata.svg',
-  },
-  {
-    name: 'Larsen & Toubro',
-    sector: 'Heavy Engineering & MEP',
-    logo: '/images/logos/larsen-toubro.svg',
-  },
-  {
-    name: 'Adani Group',
-    sector: 'Industrial Infrastructure',
-    logo: '/images/logos/adani.svg',
-  },
-  {
-    name: 'KFC',
-    sector: 'Commercial Kitchen Ventilation',
-    logo: '/images/logos/kfc.svg',
-  },
-  {
-    name: 'Pizza Hut',
-    sector: 'Hospitality Turnkey Interiors',
-    logo: '/images/logos/pizza-hut.svg',
-  },
+  { name: 'NEXA', sector: 'Luxury Showrooms', logo: '/images/logos/nexa.svg', code: 'CTR-NX-01' },
+  { name: 'Maruti Suzuki', sector: 'Automotive Network', logo: '/images/logos/maruti-suzuki.svg', code: 'CTR-MS-02' },
+  { name: 'HDFC Bank', sector: 'Commercial Branches', logo: '/images/logos/hdfc-bank.svg', code: 'CTR-HDFC-03' },
+  { name: 'ICICI Bank', sector: 'Regional Hubs', logo: '/images/logos/icici-bank.svg', code: 'CTR-ICICI-04' },
+  { name: 'Axis Bank', sector: 'Financial Centres', logo: '/images/logos/axis-bank.svg', code: 'CTR-AXIS-05' },
+  { name: 'State Bank of India', sector: 'Institutional Fit-Outs', logo: '/images/logos/sbi.svg', code: 'CTR-SBI-06' },
+  { name: 'Reliance Digital', sector: 'Electronics Mega-Stores', logo: '/images/logos/reliance-digital.svg', code: 'CTR-RD-07' },
+  { name: 'Reliance Trends', sector: 'Apparel Retail Chains', logo: '/images/logos/reliance-trends.svg', code: 'CTR-RT-08' },
+  { name: 'Smart Bazaar', sector: 'Hypermarket HVAC', logo: '/images/logos/smart-bazaar.svg', code: 'CTR-SB-09' },
+  { name: 'Tata Motors', sector: 'Automotive Facilities', logo: '/images/logos/tata.svg', code: 'CTR-TM-10' },
+  { name: 'Larsen & Toubro', sector: 'Heavy Engineering & MEP', logo: '/images/logos/larsen-toubro.svg', code: 'CTR-LT-11' },
+  { name: 'Adani Group', sector: 'Industrial Infrastructure', logo: '/images/logos/adani.svg', code: 'CTR-AG-12' },
+  { name: 'KFC', sector: 'Commercial Kitchen Ventilation', logo: '/images/logos/kfc.svg', code: 'CTR-KFC-13' },
+  { name: 'Pizza Hut', sector: 'Hospitality Turnkey Interiors', logo: '/images/logos/pizza-hut.svg', code: 'CTR-PH-14' },
 ];
 
 export default function Clients() {
   return (
-    <section className="trust-strip" aria-label="Trusted Enterprise Clients">
-      {/* Refined Header */}
-      <div className="trust-strip-header">
-        <span className="trust-eyebrow-line"></span>
-        <div className="trust-header-badge">
-          <span className="trust-badge-dot"></span>
-          <span className="trust-title">
-            TRUSTED BY 150+ INDUSTRY LEADERS &bull; AUTOMOTIVE &bull; RETAIL &bull; BANKING &bull; INDUSTRIAL
-          </span>
-        </div>
-        <span className="trust-eyebrow-line"></span>
+    <section className="cad-clients-strip" aria-label="Enterprise Engineering Partnerships">
+      <ScatteredDecor section="clients" />
+
+      {/* Top Architectural Scale Ruler */}
+      <div className="cad-ruler-bar cad-ruler-top">
+        <span className="cad-ruler-notch">0.0m</span>
+        <span className="cad-ruler-line"></span>
+        <span className="cad-ruler-spec">SCALE 1:1 &bull; ENTERPRISE CONTRACTOR REGISTRY</span>
+        <span className="cad-ruler-line"></span>
+        <span className="cad-ruler-notch">100.0m</span>
       </div>
 
-      {/* Infinite Seamless Continuous Slider */}
-      <div className="marquee-container">
-        <div className="marquee-track">
-          {/* Primary client cards set */}
+      <div className="cad-clients-header">
+        <div className="cad-tag-badge">
+          <span className="cad-tag-dot"></span>
+          <span>APPROVED CONTRACTOR // 150+ INSTITUTIONAL DEPLOYMENTS</span>
+        </div>
+        <p className="cad-clients-caption">
+          Automotive &bull; Retail Mega-Stores &bull; Banking Networks &bull; Heavy Industrial Infrastructure
+        </p>
+      </div>
+
+      {/* Infinite Seamless Continuous Marquee */}
+      <div className="cad-marquee-wrapper">
+        <div className="cad-marquee-rail">
           {clientsData.map((client, idx) => (
-            <div key={`client-primary-${idx}`} className="client-brand-card">
-              <div className="client-logo-stage">
-                <img
-                  src={client.logo}
-                  alt={client.name}
-                  className="client-real-logo"
-                  loading="lazy"
-                />
+            <div key={`client-primary-${idx}`} className="cad-partner-cell">
+              <span className="cad-cell-code">{client.code}</span>
+              <div className="cad-cell-logo">
+                <img src={client.logo} alt={client.name} loading="lazy" />
               </div>
-              <span className="client-card-divider"></span>
-              <div className="client-brand-info">
-                <span className="client-brand-name">{client.name}</span>
-                <span className="client-brand-tag">{client.sector}</span>
+              <div className="cad-cell-info">
+                <span className="cad-cell-name">{client.name}</span>
+                <span className="cad-cell-sector">{client.sector}</span>
               </div>
             </div>
           ))}
 
-          {/* Duplicate set for 100% seamless, uninterrupted loop */}
+          {/* Seamless Duplicate Set */}
           {clientsData.map((client, idx) => (
-            <div key={`client-duplicate-${idx}`} className="client-brand-card" aria-hidden="true">
-              <div className="client-logo-stage">
-                <img
-                  src={client.logo}
-                  alt={client.name}
-                  className="client-real-logo"
-                  loading="lazy"
-                />
+            <div key={`client-dup-${idx}`} className="cad-partner-cell" aria-hidden="true">
+              <span className="cad-cell-code">{client.code}</span>
+              <div className="cad-cell-logo">
+                <img src={client.logo} alt={client.name} loading="lazy" />
               </div>
-              <span className="client-card-divider"></span>
-              <div className="client-brand-info">
-                <span className="client-brand-name">{client.name}</span>
-                <span className="client-brand-tag">{client.sector}</span>
+              <div className="cad-cell-info">
+                <span className="cad-cell-name">{client.name}</span>
+                <span className="cad-cell-sector">{client.sector}</span>
               </div>
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Bottom Technical Datum Bar */}
+      <div className="cad-ruler-bar cad-ruler-bottom">
+        <span className="cad-datum-mark">REF: AMB-CTR-REG-2024</span>
+        <span className="cad-ruler-line"></span>
+        <span className="cad-datum-mark">SPEC: ASHRAE &bull; NBC &bull; IS CODES</span>
       </div>
     </section>
   );

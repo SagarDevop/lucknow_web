@@ -5,6 +5,7 @@ import About from '../components/About';
 import MissionVision from '../components/MissionVision';
 import Services from '../components/Services';
 import Industries from '../components/Industries';
+import WhyChooseUs from '../components/WhyChooseUs';
 import BeforeAfter from '../components/BeforeAfter';
 import Methodology from '../components/Methodology';
 import Projects from '../components/Projects';
@@ -30,6 +31,9 @@ export default function HomePage({ onOpenModal }) {
 
       {/* Official Brochure: Industries We Serve */}
       <Industries onOpenModal={onOpenModal} />
+
+      {/* Official Brochure: Why Choose Ambient Engineers */}
+      <WhyChooseUs onOpenModal={onOpenModal} />
 
       {/* Interactive Transformation Slider */}
       <BeforeAfter />

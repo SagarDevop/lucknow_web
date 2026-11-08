@@ -1,296 +1,395 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
+import ScatteredDecor, {
+  HVACDuctIllustration,
+  VentilationIllustration,
+  PipelineIllustration,
+  ElectricalSymbolIllustration,
+  CeilingGridIllustration,
+  ServiceGearIllustration,
+} from './ScatteredDecor';
 
-const trustPillars = [
-  {
-    title: 'SINGLE POINT SOLUTION',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="3" />
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-      </svg>
-    ),
-  },
-  {
-    title: 'QUALITY EXECUTION',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        <polyline points="9 12 11 14 15 10" />
-      </svg>
-    ),
-  },
-  {
-    title: 'EXPERIENCED TEAM',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-      </svg>
-    ),
-  },
-  {
-    title: 'LONG-TERM PARTNERSHIP',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="18" y1="20" x2="18" y2="10" />
-        <line x1="12" y1="20" x2="12" y2="4" />
-        <line x1="6" y1="20" x2="6" y2="14" />
-      </svg>
-    ),
-  },
-];
-
-const coreServicesData = [
-  {
-    id: 'hvac',
-    badgeTitle: 'HVAC WORKS',
-    badgeSub: 'COMFORT | EFFICIENCY | RELIABILITY',
-    theme: 'hvac-theme',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="4" width="20" height="12" rx="2" />
-        <line x1="6" y1="12" x2="6" y2="12.01" />
-        <line x1="10" y1="12" x2="10" y2="12.01" />
-        <line x1="14" y1="12" x2="14" y2="12.01" />
-        <line x1="18" y1="12" x2="18" y2="12.01" />
-        <path d="M6 16c1.5 2 3.5 2 5 0s3.5-2 5 0" />
-        <path d="M8 20c1.5 1.5 3.5 1.5 5 0" />
-      </svg>
-    ),
-    points: [
-      'VRF/VRV air-conditioning systems',
-      'Ductable and package AC systems',
-      'Chillers and AHU installation',
-      'Cassette and Hi-wall AC systems',
-      'HVAC ducting, grilles and dampers',
-      'Copper piping, insulation and condensate drainage',
-      'Testing, commissioning and AMC',
-    ],
-    photos: [
-      {
-        src: '/images/about/tech-chillers.jpg',
-        title: 'Chiller Plants & VRF Outdoor Units',
-      },
-      {
-        src: '/images/services/hvac-cassette-ceiling.jpg',
-        title: '4-Way Cassette & Clean Air Ducting',
-      },
-    ],
-  },
-  {
-    id: 'mep',
-    badgeTitle: 'MEP WORKS',
-    badgeSub: 'INTEGRATED SYSTEMS | SAFE | EFFICIENT',
-    theme: 'mep-theme',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-        <circle cx="6" cy="18" r="3" />
-        <path d="M6 15v-6" />
-      </svg>
-    ),
-    points: [
-      'LT/HT electrical works, as applicable',
-      'Electrical panels and distribution systems',
-      'Cable trays, wiring and lighting',
-      'Earthing and lightning protection',
-      'Power distribution and load management',
-      'Water supply and drainage systems',
-      'Pumps and associated piping',
-      'STP/ETP piping works',
-      'Hydrant and sprinkler systems',
-      'Fire pumps and fire alarm/detection systems',
-    ],
-    photos: [
-      {
-        src: '/images/services/mep-electrical-panels.jpg',
-        title: 'LT/HT Switchgear & Distribution Panels',
-      },
-      {
-        src: '/images/about/tech-firefighting.jpg',
-        title: 'Fire Hydrants & Sprinkler Networks',
-      },
-      {
-        src: '/images/services/mep-pump-piping.jpg',
-        title: 'Industrial Pumps & Water Piping',
-      },
-    ],
-  },
-  {
-    id: 'fitout',
-    badgeTitle: 'INTERIOR FIT-OUT WORKS',
-    badgeSub: 'FUNCTIONAL | AESTHETIC | TURNKEY SOLUTIONS',
-    theme: 'fitout-theme',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3" />
-        <path d="M2 11a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7z" />
-        <path d="M4 18v2" />
-        <path d="M20 18v2" />
-        <line x1="12" y1="11" x2="12" y2="18" />
-      </svg>
-    ),
-    points: [
-      'False ceiling and partition works',
-      'Flooring, tiles and painting',
-      'Carpentry and finishing works',
-      'Retail showroom and store fit-outs',
-      'Office and commercial interior execution',
-      'Turnkey execution, as per agreed scope',
-    ],
-    photos: [
-      {
-        src: '/images/services/interior-modern-office.jpg',
-        title: 'Corporate Workspaces & Baffle Ceilings',
-      },
-      {
-        src: '/images/services/interior-luxury-retail.jpg',
-        title: 'High-End Retail Showroom Fit-Outs',
-      },
-    ],
-  },
-  {
-    id: 'amc',
-    badgeTitle: 'AMC SERVICES',
-    badgeSub: 'KEEPING YOUR SPACES RUNNING SMOOTHLY',
-    theme: 'amc-theme',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-        <circle cx="12" cy="12" r="9" />
-      </svg>
-    ),
-    points: [
-      'Preventive maintenance schedules',
-      'Regular inspection and system health check-up',
-      'Quick response and support',
-      'Reduced downtime',
-      'Extended equipment life',
-      'Cost-efficient operations',
-    ],
-    photos: [
-      {
-        src: '/images/services/amc-technician-gauges.jpg',
-        title: 'Certified HVAC Diagnostics & Servicing',
-      },
-    ],
-  },
+const corePillars = [
+  { label: 'SINGLE POINT SOLUTION', desc: 'Integrated MEP & Fit-Out Delivery' },
+  { label: 'QUALITY EXECUTION', desc: 'Rigorous IS & ASHRAE Compliance' },
+  { label: 'EXPERIENCED TEAM', desc: 'Certified Engineering Specialists' },
+  { label: 'LONG-TERM PARTNERSHIP', desc: 'Dedicated Lifecycle AMC Contracts' },
 ];
 
 export default function Services({ onOpenModal }) {
-  const [inView, setInView] = useState(false);
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !inView) {
-          setInView(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, [inView]);
-
   return (
-    <section className="section-py bg-white core-services-section" id="services" ref={sectionRef}>
-      <div className="container">
-        {/* ==========================================================
-            SECTION HEADER & TOP TRUST PILLARS
-            ========================================================== */}
-        <div className="core-services-header text-center">
-          <div className="section-eyebrow">Comprehensive Contracting Capabilities</div>
-          <h2 className="section-title">
-            CORE <span className="highlight-keyword">SERVICES</span>
-          </h2>
-          <p className="section-subtitle">
-            Delivering high-precision HVAC engineering, integrated MEP systems, turnkey commercial fit-outs, and dedicated lifetime AMC operations.
-          </p>
+    <section className="cad-services-section" id="services">
+      <ScatteredDecor section="services" />
 
-          {/* 4 Value Badges from the brochure */}
-          <div className="services-trust-row">
-            {trustPillars.map((tp, idx) => (
-              <div key={idx} className="services-trust-pill">
-                <span className="services-trust-icon">{tp.icon}</span>
-                <span className="services-trust-title">{tp.title}</span>
+      <div className="cad-editorial-container">
+        {/* Section Header */}
+        <div className="cad-spec-header">
+          <span className="cad-spec-dot"></span>
+          <span className="cad-spec-code">DISCIPLINES // AMB-SRV-CORE</span>
+          <span className="cad-spec-divider">|</span>
+          <span className="cad-spec-title">ENGINEERING CAPABILITIES & SCOPE MATRIX</span>
+        </div>
+
+        {/* Section Title & Credential Strip */}
+        <div className="cad-services-intro">
+          <div className="cad-intro-col">
+            <h2 className="cad-services-heading">
+              CORE ENGINEERING<br />
+              <span className="cad-headline-accent">&amp; CONTRACTING DISCIPLINES</span>
+            </h2>
+            <p className="cad-services-lead">
+              Comprehensive turnkey contracting capabilities across commercial mechanical, electrical, plumbing, and architectural interior domains.
+            </p>
+          </div>
+
+          <div className="cad-pillars-strip">
+            {corePillars.map((p, idx) => (
+              <div key={idx} className="cad-pillar-badge">
+                <span className="cad-pillar-dot"></span>
+                <div className="cad-pillar-text">
+                  <span className="cad-pillar-label">{p.label}</span>
+                  <span className="cad-pillar-sub">{p.desc}</span>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* ==========================================================
-            4 COMPREHENSIVE SERVICE QUADRANTS (BENTO CARDS)
-            ========================================================== */}
-        <div className="core-services-grid">
-          {coreServicesData.map((service, idx) => (
-            <div
-              key={service.id}
-              className={`core-service-bento-card ${service.theme} scroll-reveal ${inView ? 'is-in-view' : ''}`}
-              style={{ transitionDelay: `${0.12 * idx}s` }}
-            >
-              {/* Card Header Pill */}
-              <div className="cs-card-header">
-                <div className="cs-header-pill">
-                  <span className="cs-pill-icon">{service.icon}</span>
-                  <div className="cs-pill-text-group">
-                    <span className="cs-pill-title">{service.badgeTitle}</span>
-                    <span className="cs-pill-sub">{service.badgeSub}</span>
-                  </div>
-                </div>
-              </div>
+        {/* ============================================================
+            DISCIPLINE 01: HVAC WORKS (COMFORT | EFFICIENCY | RELIABILITY)
+            ============================================================ */}
+        <div className="cad-discipline-spread cad-hvac-spread">
+          <div className="cad-spread-header">
+            <div className="cad-spread-title-box">
+              <span className="cad-spread-num">DISCIPLINE // 01</span>
+              <h3 className="cad-spread-name">HVAC ENGINEERING &amp; EXECUTION</h3>
+              <span className="cad-spread-subtitle">COMFORT &bull; THERMAL EFFICIENCY &bull; RELIABILITY</span>
+            </div>
+            <div className="cad-spread-tag">ASHRAE 62.1 &bull; 90.1</div>
+          </div>
 
-              {/* Card Body: Split into Scope List & Visual Photo Panel */}
-              <div className="cs-card-body">
-                {/* Left: Detailed Scope List */}
-                <div className="cs-scope-column">
-                  <ul className="cs-points-list">
-                    {service.points.map((pt, pIdx) => (
-                      <li key={pIdx} className="cs-point-item">
-                        <span className="cs-point-bullet">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="20 6 9 17 4 12" />
-                          </svg>
-                        </span>
-                        <span className="cs-point-text">{pt}</span>
-                      </li>
-                    ))}
-                  </ul>
+          <div className="cad-spread-body">
+            {/* Left Scope Checklist */}
+            <div className="cad-spread-checklist">
+              <ul className="cad-check-grid">
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>VRF / VRV Systems:</strong> Modular heat pump &amp; heat recovery inverter VRF architectures.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Ductable &amp; Packaged Units:</strong> High-CFM commercial packaged units &amp; rooftop chillers.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Chillers &amp; AHU Central Plants:</strong> Water-cooled &amp; air-cooled centrifugal chillers with custom AHUs.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Cassette &amp; Hi-Wall Splits:</strong> Multi-split cassette deployment for retail zones and office pods.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Air Distribution &amp; Ductwork:</strong> GI sheet metal ducting, acoustic lining, grilles, diffusers &amp; fire dampers.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Piping &amp; Thermal Insulation:</strong> Hard copper piping, nitrile rubber insulation &amp; condensate headers.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Testing &amp; Balancing:</strong> Comprehensive TAB (Testing, Adjusting, Balancing) airflow certification.</span>
+                </li>
+              </ul>
 
-                  <button
-                    onClick={onOpenModal}
-                    className="btn btn-outline btn-sm cs-inquire-btn"
-                  >
-                    <span>Consult on {service.badgeTitle.replace(' WORKS', '')} Scope</span>
-                    <span className="btn-icon">&rarr;</span>
-                  </button>
-                </div>
-
-                {/* Right: Media Photo Showcase */}
-                <div className="cs-photos-column">
-                  <div className={`cs-photos-gallery count-${service.photos.length}`}>
-                    {service.photos.map((photo, phIdx) => (
-                      <div key={phIdx} className="cs-photo-card">
-                        <img
-                          src={photo.src}
-                          alt={photo.title}
-                          className="cs-photo-img"
-                          loading="lazy"
-                        />
-                        <div className="cs-photo-tag">
-                          <span>{photo.title}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <div className="cad-spread-actions">
+                <button type="button" className="cad-btn-editorial" onClick={onOpenModal}>
+                  <span>CONSULT HVAC PROJECT</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </button>
               </div>
             </div>
-          ))}
+
+            {/* Right Asymmetric Stage: Authentic Photo + Embedded Technical SVG */}
+            <div className="cad-spread-stage">
+              <div className="cad-viewport-frame">
+                <span className="cad-bracket cad-bracket-tl">┌</span>
+                <span className="cad-bracket cad-bracket-tr">┐</span>
+                <span className="cad-bracket cad-bracket-bl">└</span>
+                <span className="cad-bracket cad-bracket-br">┘</span>
+                <img
+                  src="/images/services/hvac-cassette-ceiling.jpg"
+                  alt="Industrial Ceiling VRF and Ducting Installation"
+                  className="cad-viewport-photo"
+                  loading="lazy"
+                />
+                <div className="cad-viewport-telemetry">
+                  <div className="cad-telemetry-badge">
+                    <span className="cad-telemetry-pulse"></span>
+                    <span>CENTRAL PLANT VRF</span>
+                  </div>
+                  <div className="cad-telemetry-meta">CFM AIR BALANCED &bull; R-410A / R-32</div>
+                </div>
+              </div>
+
+              {/* Overlapping Technical Line-Art Duct Illustration */}
+              <div className="cad-embedded-lineart">
+                <HVACDuctIllustration size={220} opacity={0.3} accent />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ============================================================
+            DISCIPLINE 02: MEP WORKS (INTEGRATED | SAFE | EFFICIENT)
+            ============================================================ */}
+        <div className="cad-discipline-spread cad-mep-spread">
+          <div className="cad-spread-header">
+            <div className="cad-spread-title-box">
+              <span className="cad-spread-num">DISCIPLINE // 02</span>
+              <h3 className="cad-spread-name">MEP INTEGRATED SERVICES</h3>
+              <span className="cad-spread-subtitle">INTEGRATED SYSTEMS &bull; SAFE &bull; EFFICIENT</span>
+            </div>
+            <div className="cad-spread-tag">NBC PART 4 &bull; IS 732</div>
+          </div>
+
+          <div className="cad-spread-body">
+            {/* Left Stage: Authentic Photo + Embedded Schematics */}
+            <div className="cad-spread-stage">
+              <div className="cad-viewport-frame">
+                <span className="cad-bracket cad-bracket-tl">┌</span>
+                <span className="cad-bracket cad-bracket-tr">┐</span>
+                <span className="cad-bracket cad-bracket-bl">└</span>
+                <span className="cad-bracket cad-bracket-br">┘</span>
+                <img
+                  src="/images/services/mep-electrical-panels.jpg"
+                  alt="Commercial LT Electrical Distribution Panels"
+                  className="cad-viewport-photo"
+                  loading="lazy"
+                />
+                <div className="cad-viewport-telemetry">
+                  <div className="cad-telemetry-badge">
+                    <span className="cad-telemetry-pulse"></span>
+                    <span>LT/HT PANEL HUB</span>
+                  </div>
+                  <div className="cad-telemetry-meta">415V 3-PHASE &bull; DUAL SOURCE AUTO-TRANSFER</div>
+                </div>
+              </div>
+
+              {/* Overlapping Technical Electrical Schematic & Pipe Rack */}
+              <div className="cad-embedded-lineart">
+                <ElectricalSymbolIllustration size={170} opacity={0.28} />
+              </div>
+            </div>
+
+            {/* Right Scope Checklist */}
+            <div className="cad-spread-checklist">
+              <ul className="cad-check-grid">
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>LT / HT Electrical Works:</strong> Transformer feeder cables, busbar trunking &amp; switchgear installation.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Distribution Panels &amp; DBs:</strong> Compartmentalized MCCs, PCCs, APFC power factor capacitor banks.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Cable Routing &amp; Trays:</strong> Perforated &amp; ladder GI cable trays, structured cabling, bus ducts.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Earthing &amp; Lightning Arresters:</strong> Chemical earthing pits, copper strip rings &amp; ESE lightning protection.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Plumbing &amp; Water Supply:</strong> CPVC/PPR domestic lines, hydro-pneumatic pumping sets, drainage headers.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Fire Hydrants &amp; Sprinklers:</strong> MS pipe risers, diesel jockey fire pumps, pendant sprinkler arrays.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>STP / ETP Integration:</strong> Sewage &amp; effluent treatment piping, aeration systems, water recycling.</span>
+                </li>
+              </ul>
+
+              <div className="cad-spread-actions">
+                <button type="button" className="cad-btn-editorial" onClick={onOpenModal}>
+                  <span>CONSULT MEP SCOPE</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ============================================================
+            DISCIPLINE 03: INTERIOR FIT-OUT WORKS
+            ============================================================ */}
+        <div className="cad-discipline-spread cad-fitout-spread">
+          <div className="cad-spread-header">
+            <div className="cad-spread-title-box">
+              <span className="cad-spread-num">DISCIPLINE // 03</span>
+              <h3 className="cad-spread-name">INDOOR ARCHITECTURAL FIT-OUTS</h3>
+              <span className="cad-spread-subtitle">FUNCTIONAL &bull; AESTHETIC &bull; TURNKEY EXECUTION</span>
+            </div>
+            <div className="cad-spread-tag">ARCHITECTURAL MONOGRAPH</div>
+          </div>
+
+          <div className="cad-spread-body">
+            {/* Left Scope Checklist */}
+            <div className="cad-spread-checklist">
+              <ul className="cad-check-grid">
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>False Ceilings &amp; Bulkheads:</strong> Gypsum, Armstrong acoustic mineral fiber, metal baffle ceilings.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Architectural Partitions:</strong> Toughened frameless glass partitions, drywall acoustic drywall barriers.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Flooring &amp; Tiling:</strong> Commercial vitrified tiles, epoxy flooring, carpet tiles, hardwood finishes.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Retail Flagship Fit-Outs:</strong> Showroom casework, brand display perimeter fixtures, luxury lighting integration.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Corporate Workspaces:</strong> Executive cabins, conference acoustics, modular workstation wiring tracks.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Turnkey Handover:</strong> Civil, MEP, finishes and statutory clearances under single-point responsibility.</span>
+                </li>
+              </ul>
+
+              <div className="cad-spread-actions">
+                <button type="button" className="cad-btn-editorial" onClick={onOpenModal}>
+                  <span>PLAN FIT-OUT PROJECT</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Right Stage: Authentic Photo + Ceiling Grid Drawing */}
+            <div className="cad-spread-stage">
+              <div className="cad-viewport-frame">
+                <span className="cad-bracket cad-bracket-tl">┌</span>
+                <span className="cad-bracket cad-bracket-tr">┐</span>
+                <span className="cad-bracket cad-bracket-bl">└</span>
+                <span className="cad-bracket cad-bracket-br">┘</span>
+                <img
+                  src="/images/services/interior-luxury-retail.jpg"
+                  alt="Luxury Retail Showroom Interior Execution"
+                  className="cad-viewport-photo"
+                  loading="lazy"
+                />
+                <div className="cad-viewport-telemetry">
+                  <div className="cad-telemetry-badge">
+                    <span className="cad-telemetry-pulse"></span>
+                    <span>TURNKEY RETAIL FIT-OUT</span>
+                  </div>
+                  <div className="cad-telemetry-meta">ACCURACY: ±1.0mm TOLERANCE</div>
+                </div>
+              </div>
+
+              <div className="cad-embedded-lineart">
+                <CeilingGridIllustration size={200} opacity={0.28} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ============================================================
+            DISCIPLINE 04: AMC SERVICES
+            ============================================================ */}
+        <div className="cad-discipline-spread cad-amc-spread">
+          <div className="cad-spread-header">
+            <div className="cad-spread-title-box">
+              <span className="cad-spread-num">DISCIPLINE // 04</span>
+              <h3 className="cad-spread-name">ANNUAL MAINTENANCE CONTRACTS (AMC)</h3>
+              <span className="cad-spread-subtitle">CONTINUOUS UPTIME &bull; PREVENTATIVE DIAGNOSTICS</span>
+            </div>
+            <div className="cad-spread-tag">SLA 2-HR RESPONSE</div>
+          </div>
+
+          <div className="cad-spread-body">
+            {/* Left Stage: Authentic Technician Photo + Gear Decor */}
+            <div className="cad-spread-stage">
+              <div className="cad-viewport-frame">
+                <span className="cad-bracket cad-bracket-tl">┌</span>
+                <span className="cad-bracket cad-bracket-tr">┐</span>
+                <span className="cad-bracket cad-bracket-bl">└</span>
+                <span className="cad-bracket cad-bracket-br">┘</span>
+                <img
+                  src="/images/services/amc-technician-gauges.jpg"
+                  alt="HVAC Diagnostic Gauge Checks and Refrigerant Audit"
+                  className="cad-viewport-photo"
+                  loading="lazy"
+                />
+                <div className="cad-viewport-telemetry">
+                  <div className="cad-telemetry-badge">
+                    <span className="cad-telemetry-pulse"></span>
+                    <span>24/7 AMC OPERATIONS</span>
+                  </div>
+                  <div className="cad-telemetry-meta">CALIBRATED DIGITAL MANIFOLD AUDIT</div>
+                </div>
+              </div>
+
+              <div className="cad-embedded-lineart">
+                <ServiceGearIllustration size={160} opacity={0.28} />
+              </div>
+            </div>
+
+            {/* Right Scope Checklist */}
+            <div className="cad-spread-checklist">
+              <ul className="cad-check-grid">
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Preventative Maintenance Schedules:</strong> Periodic condenser chemical wash, motor lubrication, electrical torque audit.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Comprehensive Health Check-ups:</strong> Thermal imaging of DB panels, compressor current draw logs, air velocity audits.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Guaranteed Rapid Response:</strong> 2-hour on-site technician arrival for mission-critical commercial breakdowns.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Extended Asset Lifespan:</strong> Regular vibration monitoring, preventative belt/bearing swaps to prevent catastrophic failure.</span>
+                </li>
+                <li>
+                  <span className="cad-check-bullet">&bull;</span>
+                  <span><strong>Cost-Efficient Operation:</strong> Optimized refrigerant pressures and clean heat exchangers minimizing monthly power bills.</span>
+                </li>
+              </ul>
+
+              <div className="cad-spread-actions">
+                <button type="button" className="cad-btn-editorial" onClick={onOpenModal}>
+                  <span>ENROLL IN AMC PROGRAM</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

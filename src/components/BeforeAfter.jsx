@@ -1,98 +1,111 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 
 export default function BeforeAfter() {
   const [sliderPos, setSliderPos] = useState(50);
+  const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef(null);
-  const isDragging = useRef(false);
 
-  const updatePosition = useCallback((clientX) => {
+  const handleMove = (clientX) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPos(percentage);
-  }, []);
-
-  const handleMouseDown = () => {
-    isDragging.current = true;
+    const pos = Math.max(5, Math.min(95, (x / rect.width) * 100));
+    setSliderPos(pos);
   };
 
-  const handleTouchStart = () => {
-    isDragging.current = true;
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging.current) return;
-    updatePosition(e.clientX);
-  };
-
-  const handleTouchMove = (e) => {
-    if (!isDragging.current || !e.touches[0]) return;
-    updatePosition(e.touches[0].clientX);
-  };
-
-  const stopDragging = () => {
-    isDragging.current = false;
+  const onTouchMove = (e) => handleMove(e.touches[0].clientX);
+  const onMouseMove = (e) => {
+    if (isDragging) handleMove(e.clientX);
   };
 
   return (
-    <section className="section-py bg-white" id="difference">
-      <div className="container">
-        <div className="section-header text-center">
-          <div className="section-eyebrow">Transformation Showcase</div>
-          <h2 className="section-title">From Bare Concrete to <span className="highlight-keyword">Operational Masterpiece</span></h2>
-          <p className="section-subtitle">
-            Drag the slider horizontally to witness our turnkey transformation from unserviced raw shell into an immaculately finished, climate-controlled commercial interior.
+    <section className="cad-before-after-section" id="transformation">
+      <div className="cad-editorial-container">
+        {/* Section Header */}
+        <div className="cad-spec-header">
+          <span className="cad-spec-dot"></span>
+          <span className="cad-spec-code">STUDY // DWG NO: TR-001 / REV-C</span>
+          <span className="cad-spec-divider">|</span>
+          <span className="cad-spec-title">INTERACTIVE SITE TRANSFORMATION STUDY</span>
+        </div>
+
+        <div className="cad-study-heading-box">
+          <h2 className="cad-study-title">
+            SITE EVOLUTION &bull; <span className="cad-headline-accent">RAW SHELL TO HIGH-SPEC INTERIOR</span>
+          </h2>
+          <p className="cad-study-lead">
+            Drag the laser slider to inspect our turnkey HVAC ducting, acoustic ceiling, electrical cable trays and architectural finishes in place.
           </p>
         </div>
 
-        <div
-          className="before-after-wrapper"
-          ref={containerRef}
-          onMouseMove={handleMouseMove}
-          onTouchMove={handleTouchMove}
-          onMouseUp={stopDragging}
-          onTouchEnd={stopDragging}
-          onMouseLeave={stopDragging}
-        >
-          {/* Before Layer (Base) */}
-          <div className="ba-image-container ba-before">
-            <img
-              src="/images/before-office.jpg"
-              alt="Raw Shell Before Fit-Out"
-              loading="lazy"
-            />
-            <span className="ba-badge badge-before">Bare Concrete Shell</span>
+        {/* CAD Study Frame */}
+        <div className="cad-study-frame">
+          {/* Top Measurement Scale */}
+          <div className="cad-study-scale cad-study-scale-top">
+            <span>0.00m</span>
+            <span className="cad-ruler-line"></span>
+            <span>SECTION A-A // LONGITUDINAL FIT-OUT ELEVATION</span>
+            <span className="cad-ruler-line"></span>
+            <span>+15.80m</span>
           </div>
 
-          {/* After Layer (Clipped) */}
           <div
-            className="ba-image-container ba-after"
-            style={{ width: `${sliderPos}%` }}
+            className="cad-study-canvas"
+            ref={containerRef}
+            onMouseDown={() => setIsDragging(true)}
+            onMouseUp={() => setIsDragging(false)}
+            onMouseLeave={() => setIsDragging(false)}
+            onMouseMove={onMouseMove}
+            onTouchMove={onTouchMove}
           >
+            {/* After Image (Full Background) */}
             <img
               src="/images/after-office.jpg"
-              alt="Finished Luxury Commercial Interior Fit-Out"
-              loading="lazy"
+              alt="Commissioned High-Spec Commercial Office"
+              className="cad-study-img cad-img-after"
             />
-            <span className="ba-badge badge-after">Completed Fit-Out &amp; HVAC</span>
-          </div>
+            <div className="cad-state-badge cad-badge-after">
+              <span className="cad-state-dot cad-dot-green"></span>
+              <span>COMMISSIONED FACILITY (AFTER)</span>
+            </div>
 
-          {/* Draggable Divider Handle */}
-          <div
-            className="ba-handle"
-            style={{ left: `${sliderPos}%` }}
-            onMouseDown={handleMouseDown}
-            onTouchStart={handleTouchStart}
-          >
-            <div className="ba-handle-line"></div>
-            <div className="ba-handle-circle" aria-label="Drag to compare before and after">
-              <span>&#8596;</span>
+            {/* Before Image (Clipped Left Layer) */}
+            <div
+              className="cad-study-clipped-layer"
+              style={{ clipPath: `polygon(0 0, ${sliderPos}% 0, ${sliderPos}% 100%, 0 100%)` }}
+            >
+              <img
+                src="/images/before-office.jpg"
+                alt="Pre-Fitout Unfinished Bare Concrete Shell"
+                className="cad-study-img cad-img-before"
+              />
+              <div className="cad-state-badge cad-badge-before">
+                <span className="cad-state-dot cad-dot-orange"></span>
+                <span>BARE CONCRETE SHELL (BEFORE)</span>
+              </div>
+            </div>
+
+            {/* Precision Laser Slider Divider */}
+            <div className="cad-laser-divider" style={{ left: `${sliderPos}%` }}>
+              <div className="cad-laser-line"></div>
+              <div className="cad-laser-handle" title="Drag to Compare">
+                <span className="cad-handle-notch">&lang;</span>
+                <span className="cad-handle-core"></span>
+                <span className="cad-handle-notch">&rang;</span>
+              </div>
+              <span className="cad-laser-coord">X: {sliderPos.toFixed(1)}%</span>
             </div>
           </div>
-        </div>
 
-        <p className="ba-caption">Drag the slider left and right to inspect the MEP integration and architectural finish.</p>
+          {/* Bottom Measurement Scale */}
+          <div className="cad-study-scale cad-study-scale-bottom">
+            <span>±0.000 FFL</span>
+            <span className="cad-ruler-line"></span>
+            <span>PROJECT: REGIONAL COMMERCIAL HEADQUARTERS &bull; LUCKNOW</span>
+            <span className="cad-ruler-line"></span>
+            <span>100% COMMISSIONED</span>
+          </div>
+        </div>
       </div>
     </section>
   );

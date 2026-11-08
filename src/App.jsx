@@ -1,32 +1,88 @@
 import React, { useState } from 'react';
+import { RouterProvider, useRouter } from './context/RouterContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ConsultationModal from './components/ConsultationModal';
 
 import HomePage from './pages/HomePage';
+import AboutUsPage from './pages/AboutUsPage';
 import ServicesPage from './pages/ServicesPage';
-import ProjectsPage from './pages/ProjectsPage';
-import AboutPage from './pages/AboutPage';
+import HvacWorksPage from './pages/HvacWorksPage';
+import MepWorksPage from './pages/MepWorksPage';
+import InteriorFitOutPage from './pages/InteriorFitOutPage';
+import AmcWorksPage from './pages/AmcWorksPage';
+import IndustriesPage from './pages/IndustriesPage';
+import RetailIndustryPage from './pages/RetailIndustryPage';
+import BanksIndustryPage from './pages/BanksIndustryPage';
+import OfficesIndustryPage from './pages/OfficesIndustryPage';
+import ShowroomsIndustryPage from './pages/ShowroomsIndustryPage';
+import BanquetHallsIndustryPage from './pages/BanquetHallsIndustryPage';
+import CommercialBuildingsPage from './pages/CommercialBuildingsPage';
+import WhyUsPage from './pages/WhyUsPage';
 import ContactPage from './pages/ContactPage';
 
-export default function App() {
-  const [activePage, setActivePage] = useState('home');
+function AppContent() {
+  const { currentPath } = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const renderPage = () => {
-    switch (activePage) {
-      case 'services':
+  const renderActiveRoute = () => {
+    switch (currentPath) {
+      case '/about-us':
+      case '/about':
+        return <AboutUsPage onOpenModal={openModal} />;
+
+      case '/services':
         return <ServicesPage onOpenModal={openModal} />;
-      case 'projects':
-        return <ProjectsPage onOpenModal={openModal} />;
-      case 'about':
-        return <AboutPage onOpenModal={openModal} />;
-      case 'contact':
+
+      // 4 Dedicated Services Pages
+      case '/services/hvac-works':
+        return <HvacWorksPage onOpenModal={openModal} />;
+
+      case '/services/mep-works':
+        return <MepWorksPage onOpenModal={openModal} />;
+
+      case '/services/interior-fit-out-works':
+        return <InteriorFitOutPage onOpenModal={openModal} />;
+
+      case '/services/amc-works':
+        return <AmcWorksPage onOpenModal={openModal} />;
+
+      // Industries Landing Page
+      case '/industries':
+        return <IndustriesPage onOpenModal={openModal} />;
+
+      // 6 Dedicated Industries Pages
+      case '/industries/retail':
+        return <RetailIndustryPage onOpenModal={openModal} />;
+
+      case '/industries/banks':
+        return <BanksIndustryPage onOpenModal={openModal} />;
+
+      case '/industries/corporate-offices':
+      case '/industries/cooperative-offices':
+        return <OfficesIndustryPage onOpenModal={openModal} />;
+
+      case '/industries/showrooms':
+        return <ShowroomsIndustryPage onOpenModal={openModal} />;
+
+      case '/industries/banquet-halls':
+        return <BanquetHallsIndustryPage onOpenModal={openModal} />;
+
+      case '/industries/commercial-buildings':
+        return <CommercialBuildingsPage onOpenModal={openModal} />;
+
+      case '/why-us':
+      case '/why-choose-us':
+        return <WhyUsPage onOpenModal={openModal} />;
+
+      case '/contact-us':
+      case '/contact':
         return <ContactPage onOpenModal={openModal} />;
-      case 'home':
+
+      case '/':
       default:
         return <HomePage onOpenModal={openModal} />;
     }
@@ -34,22 +90,25 @@ export default function App() {
 
   return (
     <div className="app-container">
-      {/* Dynamic Header & Floating Navigation Pill */}
-      <Navbar
-        onOpenModal={openModal}
-        activePage={activePage}
-        setActivePage={setActivePage}
-      />
+      {/* Precision CAD Site Header & Dropdown Navigation */}
+      <Navbar onOpenModal={openModal} />
 
-      {/* Dynamic Active Page */}
-      {renderPage()}
+      {/* Dynamic Active Page Route */}
+      {renderActiveRoute()}
 
-      {/* Global 4-Column Footer */}
-      <Footer onOpenModal={openModal} setActivePage={setActivePage} />
+      {/* Global Architectural Footer */}
+      <Footer onOpenModal={openModal} />
 
-      {/* Global Consultation Modal */}
+      {/* Consultation Modal Dialog */}
       <ConsultationModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 }
 
+export default function App() {
+  return (
+    <RouterProvider>
+      <AppContent />
+    </RouterProvider>
+  );
+}
