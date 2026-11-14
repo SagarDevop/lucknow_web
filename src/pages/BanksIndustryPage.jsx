@@ -126,7 +126,7 @@ const bankLedgerRows = [
 export default function BanksIndustryPage({ onOpenModal }) {
   useEffect(() => {
     document.title = 'Banking & Financial Institutions | Ambient Engineers Lucknow';
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, []);
 
   return (

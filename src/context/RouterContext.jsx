@@ -25,7 +25,7 @@ export function RouterProvider({ children }) {
         const elem = document.getElementById(id);
         if (elem) elem.scrollIntoView({ behavior: 'smooth' });
       } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       }
     };
 
@@ -45,6 +45,9 @@ export function RouterProvider({ children }) {
       window.history.pushState(null, '', fullUrl);
     }
 
+    // Instantly reset scroll to top without any scroll animation
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
     setCurrentPath(target);
 
     if (hash) {
@@ -53,11 +56,9 @@ export function RouterProvider({ children }) {
         if (elem) {
           elem.scrollIntoView({ behavior: 'smooth' });
         } else {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
         }
       }, 50);
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 

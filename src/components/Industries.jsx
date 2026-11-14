@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import ScatteredDecor from './ScatteredDecor';
 import { useRouter } from '../context/RouterContext';
 
@@ -171,78 +171,189 @@ const pillarsData = [
 
 export default function Industries({ onOpenModal }) {
   const { navigate } = useRouter();
+  const wrapperRef = useRef(null);
+  const stickyRef = useRef(null);
+  const viewportRef = useRef(null);
+  const trackRef = useRef(null);
+  const progressFillRef = useRef(null);
+  const telemetryStatusRef = useRef(null);
+
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
+    if (!wrapper || !viewport || !track) return;
+
+    let maxDistance = 0;
+    let totalTravel = 0;
+
+    const calculateMetrics = () => {
+      const trackWidth = track.scrollWidth;
+      const viewportWidth = viewport.clientWidth;
+      maxDistance = Math.max(0, trackWidth - viewportWidth);
+
+      // Total vertical travel distance to consume for the horizontal scroll
+      // 1.15 multiplier provides an ergonomic, comfortable scroll pace (approx 12-16 wheel ticks)
+      totalTravel = Math.max(maxDistance * 1.15, 600);
+
+      // Dynamically set the parent runway height: 100vh + totalTravel
+      wrapper.style.height = `${window.innerHeight + totalTravel}px`;
+    };
+
+    calculateMetrics();
+
+    // ResizeObserver watches for responsive container changes & orientation shifts
+    const resizeObserver = new ResizeObserver(() => {
+      calculateMetrics();
+      updateScroll();
+    });
+    resizeObserver.observe(viewport);
+    resizeObserver.observe(track);
+    window.addEventListener('resize', calculateMetrics);
+
+    let rafId = null;
+    const updateScroll = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        if (!wrapper || !track) return;
+
+        const wrapperRect = wrapper.getBoundingClientRect();
+        
+        // Scrolled distance within the sticky runway
+        const scrolled = -wrapperRect.top;
+        const progress = Math.min(Math.max(scrolled / totalTravel, 0), 1);
+
+        // Move track from Right to Left as user scrolls Down
+        const currentX = -(progress * maxDistance);
+        track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+
+        // Update progress bar
+        if (progressFillRef.current) {
+          progressFillRef.current.style.width = `${progress * 100}%`;
+        }
+
+        // Update telemetry badge
+        if (telemetryStatusRef.current) {
+          const totalCards = industriesData.length;
+          const activeIndex = Math.min(
+            Math.floor(progress * totalCards),
+            totalCards - 1
+          );
+          const currentCode = industriesData[activeIndex]?.code || 'SEC-RET // 01';
+          telemetryStatusRef.current.textContent = `[ ACTIVE: ${currentCode} | ${Math.round(progress * 100)}% ]`;
+        }
+      });
+    };
+
+    window.addEventListener('scroll', updateScroll, { passive: true });
+    updateScroll();
+
+    return () => {
+      window.removeEventListener('scroll', updateScroll);
+      window.removeEventListener('resize', calculateMetrics);
+      resizeObserver.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
 
   return (
     <section className="cad-industries-section" id="industries">
       <ScatteredDecor section="industries" />
 
-      <div className="cad-editorial-container">
-        {/* Section Header */}
-        <div className="cad-spec-header">
-          <span className="cad-spec-dot"></span>
-          <span className="cad-spec-code">SECTOR PROFILES // AMB-IND-06</span>
-          <span className="cad-spec-divider">|</span>
-          <span className="cad-spec-title">COMMERCIAL INFRASTRUCTURE DOMAINS</span>
-        </div>
+      {/* ============================================================
+          SCROLL-CONTROLLED STICKY HORIZONTAL RUNWAY
+          ============================================================ */}
+      <div className="cad-industries-scroll-wrapper" ref={wrapperRef}>
+        <div className="cad-industries-sticky-window" ref={stickyRef}>
+          <div className="cad-editorial-container">
+            {/* Section Header (Stationary) */}
+            <div className="cad-spec-header">
+              <span className="cad-spec-dot"></span>
+              <span className="cad-spec-code">SECTOR PROFILES // AMB-IND-06</span>
+              <span className="cad-spec-divider">|</span>
+              <span className="cad-spec-title">COMMERCIAL INFRASTRUCTURE DOMAINS</span>
+            </div>
 
-        {/* Section Headline */}
-        <div className="cad-industries-heading-box">
-          <h2 className="cad-industries-title">
-            INDUSTRIES WE SERVE &bull; <span className="cad-headline-accent">SECTOR PROFILES</span>
-          </h2>
-          <p className="cad-industries-lead">
-            We deliver integrated HVAC, MEP, and interior fit-out solutions for a wide range of commercial and business environments across India.
-          </p>
-        </div>
+            {/* Section Headline (Stationary) */}
+            <div className="cad-industries-heading-box">
+              <h2 className="cad-industries-title">
+                INDUSTRIES WE SERVE &bull; <span className="cad-headline-accent">SECTOR PROFILES</span>
+              </h2>
+              <p className="cad-industries-lead">
+                We deliver integrated HVAC, MEP, and interior fit-out solutions for a wide range of commercial and business environments across India.
+              </p>
+            </div>
 
-        {/* 6 Open Architectural Sector Bays */}
-        <div className="cad-sectors-grid">
-          {industriesData.map((ind, idx) => (
-            <div key={idx} className="cad-sector-bay">
-              <div className="cad-bay-top">
-                <span className="cad-bay-code">{ind.code}</span>
-                <span className="cad-bay-line"></span>
-                <span className="cad-bay-dot"></span>
-              </div>
+            {/* Viewport for Continuous Horizontal Track */}
+            <div className="cad-industries-track-viewport" ref={viewportRef}>
+              <div className="cad-industries-horizontal-track" ref={trackRef}>
+                {industriesData.map((ind, idx) => (
+                  <div key={idx} className="cad-sector-bay">
+                    <div className="cad-bay-top">
+                      <span className="cad-bay-code">{ind.code}</span>
+                      <span className="cad-bay-line"></span>
+                      <span className="cad-bay-dot"></span>
+                    </div>
 
-              <div className="cad-bay-visual">
-                <span className="cad-bracket cad-bracket-tl">┌</span>
-                <span className="cad-bracket cad-bracket-tr">┐</span>
-                <span className="cad-bracket cad-bracket-bl">└</span>
-                <span className="cad-bracket cad-bracket-br">┘</span>
-                <div className={`cad-sector-icon-pill cad-pill-${ind.badgeTheme}`} title={ind.title}>
-                  {ind.icon}
-                </div>
-                <img src={ind.img} alt={ind.title} loading="lazy" />
-                <span className="cad-bay-specs">{ind.specs}</span>
-              </div>
+                    <div className="cad-bay-visual">
+                      <span className="cad-bracket cad-bracket-tl">┌</span>
+                      <span className="cad-bracket cad-bracket-tr">┐</span>
+                      <span className="cad-bracket cad-bracket-bl">└</span>
+                      <span className="cad-bracket cad-bracket-br">┘</span>
+                      <div className={`cad-sector-icon-pill cad-pill-${ind.badgeTheme}`} title={ind.title}>
+                        {ind.icon}
+                      </div>
+                      <img src={ind.img} alt={ind.title} loading="lazy" />
+                      <span className="cad-bay-specs">{ind.specs}</span>
+                    </div>
 
-              <div className="cad-bay-content">
-                <h3 className="cad-bay-title">{ind.title}</h3>
-                <p className="cad-bay-desc">{ind.desc}</p>
-                <div style={{ marginTop: '14px' }}>
-                  <a
-                    href={ind.route}
-                    className="cad-view-all-link"
-                    style={{ fontSize: '0.75rem', fontWeight: 700, color: '#DC2626', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate(ind.route);
-                    }}
-                  >
-                    <span>View Dedicated Sector Page</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                      <polyline points="12 5 19 12 12 19" />
-                    </svg>
-                  </a>
-                </div>
+                    <div className="cad-bay-content">
+                      <h3 className="cad-bay-title">{ind.title}</h3>
+                      <p className="cad-bay-desc">{ind.desc}</p>
+                      <div style={{ marginTop: '14px' }}>
+                        <a
+                          href={ind.route}
+                          className="cad-view-all-link"
+                          style={{ fontSize: '0.75rem', fontWeight: 700, color: '#DC2626', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate(ind.route);
+                          }}
+                        >
+                          <span>View Dedicated Sector Page</span>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
 
-        {/* 5-Pillar Architectural Ledger */}
+            {/* Telemetry Status Bar & Visual Progress Indicator */}
+            <div className="cad-industries-telemetry-bar">
+              <div className="cad-industries-telemetry-pill">
+                <span className="cad-industries-telemetry-dot"></span>
+                <span>HORIZONTAL SCROLL CONDUIT &bull; 01 TO 06</span>
+              </div>
+              <div className="cad-industries-track-indicator">
+                <div className="cad-industries-track-fill" ref={progressFillRef}></div>
+              </div>
+              <span ref={telemetryStatusRef}>[ ACTIVE: SEC-RET // 01 | 0% ]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ============================================================
+          5-PILLAR ARCHITECTURAL LEDGER (Continuous Assurance)
+          Appears naturally once horizontal track completes
+          ============================================================ */}
+      <div className="cad-editorial-container cad-industries-ledger-wrap">
         <div className="cad-pillars-ledger">
           <div className="cad-ledger-header">
             <span className="cad-ledger-label">CONTRACTOR ASSURANCE FRAMEWORK</span>

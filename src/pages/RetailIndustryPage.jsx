@@ -137,7 +137,7 @@ const retailLedgerRows = [
 export default function RetailIndustryPage({ onOpenModal }) {
   useEffect(() => {
     document.title = 'Retail Stores & Hypermarkets | Ambient Engineers Lucknow';
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, []);
 
   return (

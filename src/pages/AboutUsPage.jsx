@@ -8,7 +8,7 @@ import ScatteredDecor from '../components/ScatteredDecor';
 export default function AboutUsPage({ onOpenModal }) {
   useEffect(() => {
     document.title = 'About Us | Ambient Engineers — Commercial Engineering & Contracting';
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, []);
 
   return (

@@ -1,0 +1,1094 @@
+/* ==========================================================================
+   AMBIENT ENGINEERS - STICKY STACKING CARDS & SCROLL TRIGGER ENGINE
+   Native CSS Sticky Stacking (Zero Scroll-Jacking, 100% Native Browser Physics)
+   ========================================================================== */
+
+/* Modern non-breaking horizontal overflow clip that protects position: sticky */
+html, body {
+  overflow-x: clip !important;
+}
+
+/* ==========================================================================
+   1. STICKY STACKING WORK STRIPS (Services & Industries Portfolio)
+   ========================================================================== */
+
+.cad-work-strip-section {
+  position: relative;
+  overflow: visible !important;
+}
+
+.cad-work-strip-section .cad-editorial-container {
+  overflow: visible !important;
+}
+
+/* The stacking container deck */
+.cad-work-strip-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  position: relative !important;
+  width: 100% !important;
+  padding-top: 10px;
+  padding-bottom: 40px;
+}
+
+/* Individual Stackable Cards */
+.cad-project-strip-item {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: calc(92px + (var(--card-index, 0) * 18px)) !important;
+  z-index: calc(10 + var(--card-index, 0)) !important;
+  background: #FFFFFF !important;
+  border: 1px solid rgba(15, 23, 42, 0.16) !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  box-shadow: 0 -12px 30px rgba(15, 23, 42, 0.08), 0 20px 48px rgba(15, 23, 42, 0.12) !important;
+  margin-bottom: 56px !important;
+  display: grid !important;
+  grid-template-columns: 460px 1fr !important;
+  min-height: 290px;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* Automatic Stagger Indices via :nth-child */
+.cad-project-strip-item:nth-child(1) { --card-index: 0; }
+.cad-project-strip-item:nth-child(2) { --card-index: 1; }
+.cad-project-strip-item:nth-child(3) { --card-index: 2; }
+.cad-project-strip-item:nth-child(4) { --card-index: 3; }
+.cad-project-strip-item:nth-child(5) { --card-index: 4; }
+.cad-project-strip-item:nth-child(6) { --card-index: 5; }
+.cad-project-strip-item:nth-child(7) { --card-index: 6; }
+.cad-project-strip-item:nth-child(8) { --card-index: 7; }
+
+/* Left Media Column inside the wide stacked card */
+.cad-project-strip-item .cad-project-strip-media {
+  height: 100% !important;
+  min-height: 280px;
+  position: relative !important;
+  overflow: hidden;
+  background: #0B0F19;
+}
+
+.cad-project-strip-item .cad-project-strip-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cad-project-strip-item:hover .cad-project-strip-media img {
+  transform: scale(1.06);
+}
+
+/* Right Content Column inside the wide stacked card */
+.cad-project-strip-item .cad-project-strip-body {
+  padding: 32px 36px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  gap: 14px !important;
+  background: #FFFFFF !important;
+  position: relative;
+}
+
+/* Top Accent line inside card header */
+.cad-project-strip-item .cad-project-strip-body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #EA580C 0%, rgba(234, 88, 12, 0.2) 60%, transparent 100%);
+}
+
+.cad-project-strip-item .cad-project-strip-name {
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif) !important;
+  font-size: 1.35rem !important;
+  font-weight: 700 !important;
+  color: #0F172A !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1.25 !important;
+  margin: 0 !important;
+}
+
+.cad-project-strip-item .cad-project-strip-location {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace) !important;
+  font-size: 0.76rem !important;
+  color: #64748B !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+.cad-project-strip-item .cad-project-strip-scope {
+  font-size: 0.94rem !important;
+  line-height: 1.6 !important;
+  color: #475569 !important;
+  margin: 0 !important;
+}
+
+/* Technical Metric Badges */
+.cad-project-strip-item .cad-project-metrics-strip {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin-top: 4px !important;
+}
+
+.cad-project-strip-item .cad-metric-badge-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 4px 10px !important;
+  background: rgba(15, 23, 42, 0.04) !important;
+  border: 1px solid rgba(15, 23, 42, 0.1) !important;
+  border-radius: 4px !important;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace) !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  color: #0F172A !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* Signature Laser Beam Scanning Line across card */
+.cad-project-strip-item::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: #EA580C;
+  box-shadow: 0 0 16px 3px rgba(234, 88, 12, 0.7);
+  pointer-events: none;
+  z-index: 25;
+  opacity: 0;
+}
+
+.cad-project-strip-item.is-in-view::after {
+  animation: cadLaserSweep 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.25s;
+}
+
+@keyframes cadLaserSweep {
+  0% { left: 0%; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+/* Tablet & Mobile Responsiveness for Stacking Cards */
+@media (max-width: 992px) {
+  .cad-project-strip-item {
+    grid-template-columns: 1fr !important;
+    top: calc(75px + (var(--card-index, 0) * 14px)) !important;
+    margin-bottom: 40px !important;
+    min-height: auto;
+  }
+
+  .cad-project-strip-item .cad-project-strip-media {
+    height: 220px !important;
+    min-height: 220px !important;
+  }
+
+  .cad-project-strip-item .cad-project-strip-body {
+    padding: 20px 18px !important;
+    gap: 10px !important;
+  }
+
+  .cad-project-strip-item .cad-project-strip-name {
+    font-size: 1.15rem !important;
+  }
+
+  .cad-project-strip-item .cad-project-strip-scope {
+    font-size: 0.86rem !important;
+  }
+}
+
+/* ==========================================================================
+   2. SCROLL TRIGGER REVEAL & BLUR-TO-FOCUS ANIMATIONS
+   NextOffice-style camera focus with ease-out expo curves
+   ========================================================================== */
+
+.cad-scroll-trigger {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateY(24px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform, filter;
+}
+
+.cad-scroll-trigger.is-in-view {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+/* Stagger delays for child parameters & steps */
+.cad-params-strip-row .cad-param-strip-card:nth-child(1) { transition-delay: 0.05s; }
+.cad-params-strip-row .cad-param-strip-card:nth-child(2) { transition-delay: 0.15s; }
+.cad-params-strip-row .cad-param-strip-card:nth-child(3) { transition-delay: 0.25s; }
+.cad-params-strip-row .cad-param-strip-card:nth-child(4) { transition-delay: 0.35s; }
+
+.cad-process-strip-timeline .cad-process-strip-step:nth-child(1) { transition-delay: 0.05s; }
+.cad-process-strip-timeline .cad-process-strip-step:nth-child(2) { transition-delay: 0.12s; }
+.cad-process-strip-timeline .cad-process-strip-step:nth-child(3) { transition-delay: 0.19s; }
+.cad-process-strip-timeline .cad-process-strip-step:nth-child(4) { transition-delay: 0.26s; }
+.cad-process-strip-timeline .cad-process-strip-step:nth-child(5) { transition-delay: 0.33s; }
+.cad-process-strip-timeline .cad-process-strip-step:nth-child(6) { transition-delay: 0.40s; }
+
+/* ==========================================================================
+   3. CORE SERVICES 4-CARD STACKING DECK
+   Discipline 01 -> 04 Stacking smoothly on scroll
+   ========================================================================== */
+
+.cad-services-section {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.cad-services-section .cad-editorial-container {
+  overflow: visible !important;
+  position: relative !important;
+}
+
+.cad-services-stack-deck {
+  display: block !important;
+  position: relative !important;
+  width: 100% !important;
+  padding-top: 16px;
+  padding-bottom: 80px;
+}
+
+/* Individual Stacking Discipline Spreads */
+.cad-discipline-spread {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid rgba(15, 23, 42, 0.16) !important;
+  border-radius: 8px !important;
+  padding: 20px 28px !important;
+  box-shadow: 0 -12px 30px rgba(15, 23, 42, 0.1), 0 20px 48px rgba(15, 23, 42, 0.12) !important;
+  margin-bottom: 40px !important;
+  transform-origin: center top;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, filter;
+}
+
+/* Staggered offsets so each previous card's header tab remains completely visible */
+.cad-discipline-spread:nth-child(1) {
+  top: 86px !important;
+  z-index: 10 !important;
+  margin-bottom: 40px !important;
+}
+
+.cad-discipline-spread:nth-child(2) {
+  top: 146px !important;
+  z-index: 20 !important;
+  margin-bottom: 40px !important;
+}
+
+.cad-discipline-spread:nth-child(3) {
+  top: 206px !important;
+  z-index: 30 !important;
+  margin-bottom: 40px !important;
+}
+
+.cad-discipline-spread:nth-child(4) {
+  top: 266px !important;
+  z-index: 40 !important;
+  margin-bottom: 60px !important;
+}
+
+/* Compact Ergonomic Sizing so cards comfortably fit any viewport */
+.cad-discipline-spread .cad-spread-header {
+  padding-bottom: 8px !important;
+  margin-bottom: 12px !important;
+}
+
+.cad-discipline-spread .cad-spread-num {
+  font-size: 0.72rem !important;
+  margin-bottom: 2px !important;
+}
+
+.cad-discipline-spread .cad-spread-name {
+  font-size: 1.25rem !important;
+  margin-bottom: 2px !important;
+  line-height: 1.2 !important;
+}
+
+.cad-discipline-spread .cad-spread-subtitle {
+  font-size: 0.72rem !important;
+}
+
+.cad-discipline-spread .cad-spread-body {
+  gap: 24px !important;
+}
+
+.cad-discipline-spread .cad-check-grid {
+  gap: 6px !important;
+  margin-bottom: 12px !important;
+}
+
+.cad-discipline-spread .cad-check-grid li {
+  font-size: 0.8rem !important;
+  line-height: 1.35 !important;
+}
+
+.cad-discipline-spread .cad-viewport-photo {
+  height: 220px !important;
+}
+
+.cad-discipline-spread .cad-embedded-lineart {
+  opacity: 0.1 !important;
+}
+
+/* Tablet & Mobile Responsiveness for Services Stacking Deck */
+@media (max-width: 992px) {
+  .cad-discipline-spread:nth-child(1) { top: 76px !important; }
+  .cad-discipline-spread:nth-child(2) { top: 126px !important; }
+  .cad-discipline-spread:nth-child(3) { top: 176px !important; }
+  .cad-discipline-spread:nth-child(4) { top: 226px !important; }
+}
+
+@media (max-width: 768px) {
+  .cad-discipline-spread {
+    margin-bottom: 30px !important;
+    padding: 16px 14px !important;
+  }
+
+  .cad-discipline-spread:nth-child(1) { top: 68px !important; }
+  .cad-discipline-spread:nth-child(2) { top: 108px !important; }
+  .cad-discipline-spread:nth-child(3) { top: 148px !important; }
+  .cad-discipline-spread:nth-child(4) { 
+    top: 188px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .cad-discipline-spread .cad-viewport-photo {
+    height: 160px !important;
+  }
+
+  .cad-discipline-spread .cad-spread-name {
+    font-size: 1.1rem !important;
+  }
+
+  .cad-discipline-spread .cad-check-grid li {
+    font-size: 0.75rem !important;
+    line-height: 1.3 !important;
+  }
+}
+
+/* ==========================================================================
+   4. INDUSTRIES WE SERVE — PREMIUM STICKY HORIZONTAL SCROLL ENGINE
+   Scroll-controlled horizontal card track (Right-to-Left on Vertical Scroll)
+   ========================================================================== */
+
+/* Outer Parent Wrapper whose dynamic height provides the vertical scroll runway */
+.cad-industries-scroll-wrapper {
+  position: relative !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+/* Sticky Viewport Window that pins at the top of the viewport */
+.cad-industries-sticky-window {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  padding-top: 86px !important; /* clears 76px navbar + breathing room */
+  padding-bottom: 24px !important;
+  box-sizing: border-box !important;
+  z-index: 5 !important;
+}
+
+.cad-industries-sticky-window .cad-editorial-container {
+  width: 100% !important;
+  max-width: 1320px !important;
+  margin: 0 auto !important;
+  padding: 0 32px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+/* Stationary Section Header & Heading */
+.cad-industries-sticky-window .cad-spec-header {
+  margin-bottom: 10px !important;
+}
+
+.cad-industries-sticky-window .cad-industries-heading-box {
+  margin-bottom: 20px !important;
+}
+
+.cad-industries-sticky-window .cad-industries-title {
+  font-size: 2.1rem !important;
+  margin-bottom: 6px !important;
+  line-height: 1.15 !important;
+}
+
+.cad-industries-sticky-window .cad-industries-lead {
+  font-size: 0.92rem !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+/* Track Viewport: Window through which the horizontal track moves */
+.cad-industries-track-viewport {
+  position: relative !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  padding: 8px 0 16px 0 !important;
+}
+
+/* Continuous Horizontal Row */
+.cad-industries-horizontal-track {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 28px !important;
+  width: max-content !important;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+/* Individual Industry Cards in the Horizontal Track - Approximately 3 per row on Desktop */
+.cad-industries-horizontal-track .cad-sector-bay {
+  flex: 0 0 392px !important;
+  width: 392px !important;
+  box-sizing: border-box !important;
+  border: 1px solid rgba(15, 23, 42, 0.12) !important;
+  background-color: #FFFFFF !important;
+  padding: 16px !important;
+  border-radius: 6px !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05) !important;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease !important;
+}
+
+.cad-industries-horizontal-track .cad-sector-bay:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.1) !important;
+  border-color: rgba(234, 88, 12, 0.4) !important;
+}
+
+/* Interactive Telemetry Datum / Progress Bar */
+.cad-industries-telemetry-bar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-top: 14px !important;
+  padding-top: 10px !important;
+  border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace) !important;
+  font-size: 0.72rem !important;
+  color: #64748B !important;
+  letter-spacing: 0.05em !important;
+}
+
+.cad-industries-telemetry-pill {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.cad-industries-telemetry-dot {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: #EA580C !important;
+  box-shadow: 0 0 8px rgba(234, 88, 12, 0.6) !important;
+  animation: cadPulseDot 2s infinite !important;
+}
+
+@keyframes cadPulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.6; }
+}
+
+.cad-industries-track-indicator {
+  flex: 1 !important;
+  max-width: 280px !important;
+  height: 3px !important;
+  background: rgba(15, 23, 42, 0.08) !important;
+  border-radius: 2px !important;
+  margin: 0 16px !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+.cad-industries-track-fill {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  height: 100% !important;
+  width: 0% !important;
+  background: linear-gradient(90deg, #EA580C, #DC2626) !important;
+  border-radius: 2px !important;
+  transition: width 0.06s ease-out !important;
+}
+
+/* 5 Pillars Ledger below the horizontal scroll section */
+.cad-industries-ledger-wrap {
+  padding: 60px 32px 100px 32px !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Tablet & Mobile Responsiveness */
+@media (max-width: 1200px) {
+  .cad-industries-horizontal-track .cad-sector-bay {
+    flex: 0 0 350px !important;
+    width: 350px !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .cad-industries-sticky-window {
+    padding-top: 76px !important;
+  }
+
+  .cad-industries-sticky-window .cad-industries-title {
+    font-size: 1.75rem !important;
+  }
+
+  .cad-industries-horizontal-track {
+    gap: 20px !important;
+  }
+
+  .cad-industries-horizontal-track .cad-sector-bay {
+    flex: 0 0 calc((100vw - 64px - 20px) / 2) !important;
+    width: calc((100vw - 64px - 20px) / 2) !important;
+    min-width: 300px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .cad-industries-sticky-window {
+    padding-top: 68px !important;
+    padding-bottom: 12px !important;
+  }
+
+  .cad-industries-sticky-window .cad-editorial-container {
+    padding: 0 16px !important;
+  }
+
+  .cad-industries-sticky-window .cad-industries-title {
+    font-size: 1.35rem !important;
+  }
+
+  .cad-industries-sticky-window .cad-industries-lead {
+    font-size: 0.8rem !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .cad-industries-horizontal-track {
+    gap: 16px !important;
+  }
+
+  .cad-industries-horizontal-track .cad-sector-bay {
+    flex: 0 0 84vw !important;
+    width: 84vw !important;
+    min-width: 270px !important;
+    padding: 14px !important;
+  }
+
+  .cad-industries-horizontal-track .cad-bay-visual {
+    height: 155px !important;
+  }
+
+  .cad-industries-ledger-wrap {
+    padding: 40px 16px 60px 16px !important;
+  }
+}
+
+/* ==========================================================================
+   5. PROJECTS WE COMPLETED — PREMIUM STICKY HORIZONTAL SCROLL ENGINE
+   Scroll-controlled horizontal card track (Right-to-Left on Vertical Scroll)
+   ========================================================================== */
+
+.cad-projects-section {
+  position: relative !important;
+  background-color: #FAFAF8 !important;
+  overflow: visible !important;
+  padding: 0 !important;
+}
+
+/* Outer Parent Wrapper whose dynamic height provides the vertical scroll runway */
+.cad-projects-scroll-wrapper {
+  position: relative !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+/* Sticky Viewport Window that pins at the top of the viewport */
+.cad-projects-sticky-window {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  padding-top: 86px !important; /* clears 76px navbar + buffer */
+  padding-bottom: 24px !important;
+  box-sizing: border-box !important;
+  z-index: 5 !important;
+}
+
+.cad-projects-sticky-window .cad-editorial-container {
+  width: 100% !important;
+  max-width: 1320px !important;
+  margin: 0 auto !important;
+  padding: 0 32px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+/* Stationary Section Header & Heading */
+.cad-projects-sticky-window .cad-spec-header {
+  margin-bottom: 8px !important;
+}
+
+.cad-projects-sticky-window .cad-projects-heading-box {
+  margin-bottom: 12px !important;
+}
+
+.cad-projects-sticky-window .cad-projects-title {
+  font-size: 2rem !important;
+  margin-bottom: 4px !important;
+  line-height: 1.15 !important;
+}
+
+.cad-projects-sticky-window .cad-projects-lead {
+  font-size: 0.88rem !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+/* CAD Layer Filter Row */
+.cad-projects-sticky-window .cad-layer-selector {
+  margin-bottom: 14px !important;
+}
+
+/* Track Viewport: Window through which the horizontal track moves */
+.cad-projects-track-viewport {
+  position: relative !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  padding: 6px 0 12px 0 !important;
+}
+
+/* Continuous Horizontal Row */
+.cad-projects-horizontal-track {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 28px !important;
+  width: max-content !important;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+/* Individual Project Cards in the Horizontal Track - Approximately 3 per row on Desktop */
+.cad-projects-horizontal-track .cad-project-card {
+  flex: 0 0 392px !important;
+  width: 392px !important;
+  box-sizing: border-box !important;
+  border: 1px solid rgba(15, 23, 42, 0.12) !important;
+  background-color: #FFFFFF !important;
+  padding: 14px !important;
+  border-radius: 6px !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05) !important;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease !important;
+}
+
+.cad-projects-horizontal-track .cad-project-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.1) !important;
+  border-color: rgba(234, 88, 12, 0.4) !important;
+}
+
+.cad-projects-horizontal-track .cad-card-viewport {
+  height: 180px !important;
+  margin-bottom: 12px !important;
+}
+
+/* Interactive Telemetry Datum / Progress Bar */
+.cad-projects-telemetry-bar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-top: 10px !important;
+  padding-top: 10px !important;
+  border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace) !important;
+  font-size: 0.72rem !important;
+  color: #64748B !important;
+  letter-spacing: 0.05em !important;
+}
+
+.cad-projects-telemetry-pill {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.cad-projects-telemetry-dot {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: #EA580C !important;
+  box-shadow: 0 0 8px rgba(234, 88, 12, 0.6) !important;
+  animation: cadPulseDot 2s infinite !important;
+}
+
+.cad-projects-track-indicator {
+  flex: 1 !important;
+  max-width: 280px !important;
+  height: 3px !important;
+  background: rgba(15, 23, 42, 0.08) !important;
+  border-radius: 2px !important;
+  margin: 0 16px !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+.cad-projects-track-fill {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  height: 100% !important;
+  width: 0% !important;
+  background: linear-gradient(90deg, #EA580C, #DC2626) !important;
+  border-radius: 2px !important;
+  transition: width 0.06s ease-out !important;
+}
+
+/* Tablet & Mobile Responsiveness */
+@media (max-width: 1200px) {
+  .cad-projects-horizontal-track .cad-project-card {
+    flex: 0 0 350px !important;
+    width: 350px !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .cad-projects-sticky-window {
+    padding-top: 76px !important;
+  }
+
+  .cad-projects-sticky-window .cad-projects-title {
+    font-size: 1.75rem !important;
+  }
+
+  .cad-projects-horizontal-track {
+    gap: 20px !important;
+  }
+
+  .cad-projects-horizontal-track .cad-project-card {
+    flex: 0 0 calc((100vw - 64px - 20px) / 2) !important;
+    width: calc((100vw - 64px - 20px) / 2) !important;
+    min-width: 300px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .cad-projects-sticky-window {
+    padding-top: 68px !important;
+    padding-bottom: 12px !important;
+  }
+
+  .cad-projects-sticky-window .cad-editorial-container {
+    padding: 0 16px !important;
+  }
+
+  .cad-projects-sticky-window .cad-projects-title {
+    font-size: 1.35rem !important;
+  }
+
+  .cad-projects-sticky-window .cad-projects-lead {
+    font-size: 0.8rem !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .cad-projects-sticky-window .cad-layer-selector {
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    padding-bottom: 6px !important;
+  }
+
+  .cad-projects-horizontal-track {
+    gap: 16px !important;
+  }
+
+  .cad-projects-horizontal-track .cad-project-card {
+    flex: 0 0 84vw !important;
+    width: 84vw !important;
+    min-width: 270px !important;
+    padding: 12px !important;
+  }
+
+  .cad-projects-horizontal-track .cad-card-viewport {
+    height: 150px !important;
+  }
+}
+
+/* ==========================================================================
+   6. ABOUT PAGE — SPLIT-SCREEN STICKY TECHNICAL PHOTO SWITCHER
+   Scroll-synchronized discipline focus and cross-fading deployment stage
+   ========================================================================== */
+
+.cad-matrix-spread {
+  display: grid !important;
+  grid-template-columns: 1.05fr 0.95fr !important;
+  gap: 48px !important;
+  align-items: flex-start !important;
+  margin-bottom: 70px !important;
+  position: relative !important;
+}
+
+.cad-pillars-stack {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 24px !important;
+}
+
+/* Interactive Focus Pillar Card */
+.cad-pillar-interactive-card {
+  display: grid !important;
+  grid-template-columns: 56px 40px 1fr !important;
+  gap: 16px !important;
+  align-items: flex-start !important;
+  padding: 24px 26px !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid rgba(15, 23, 42, 0.1) !important;
+  border-left: 4px solid #CBD5E1 !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  opacity: 0.65;
+  transform: translateX(0);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.cad-pillar-interactive-card:hover {
+  opacity: 0.95 !important;
+  border-left-color: #EA580C !important;
+  transform: translateX(4px) !important;
+}
+
+.cad-pillar-interactive-card.is-active {
+  opacity: 1 !important;
+  background-color: #FFFFFF !important;
+  border-color: rgba(15, 23, 42, 0.16) !important;
+  border-left-color: #EA580C !important;
+  transform: translateX(8px) !important;
+  box-shadow: 0 14px 32px rgba(234, 88, 12, 0.12), 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+}
+
+.cad-pillar-interactive-card .cad-pillar-code {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace) !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  color: var(--accent-orange, #EA580C) !important;
+}
+
+.cad-pillar-interactive-card .cad-pillar-icon {
+  color: #0F172A !important;
+  transition: transform 0.3s ease !important;
+}
+
+.cad-pillar-interactive-card.is-active .cad-pillar-icon {
+  transform: scale(1.15) !important;
+  color: #EA580C !important;
+}
+
+.cad-pillar-interactive-card .cad-pillar-title {
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: #0F172A !important;
+  margin-bottom: 6px !important;
+}
+
+.cad-pillar-interactive-card .cad-pillar-desc {
+  font-size: 0.85rem !important;
+  line-height: 1.55 !important;
+  color: #64748B !important;
+}
+
+/* Sticky Right Column Visual Stage */
+.cad-sticky-visual-stage {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 110px !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid rgba(15, 23, 42, 0.14) !important;
+  border-radius: 8px !important;
+  padding: 16px !important;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.08) !important;
+  z-index: 10 !important;
+}
+
+.cad-stage-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace) !important;
+  font-size: 0.68rem !important;
+  color: #64748B !important;
+  margin-bottom: 12px !important;
+  padding-bottom: 8px !important;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+}
+
+.cad-stage-status-pill {
+  font-weight: 700 !important;
+  color: #EA580C !important;
+}
+
+/* Photo Viewport */
+.cad-stage-viewport {
+  position: relative !important;
+  height: 330px !important;
+  overflow: hidden !important;
+  background-color: #0B0F19 !important;
+  border-radius: 4px !important;
+}
+
+.cad-stage-slide {
+  position: absolute !important;
+  inset: 0 !important;
+  opacity: 0;
+  transform: scale(1.05);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  pointer-events: none;
+}
+
+.cad-stage-slide.is-active {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+  pointer-events: auto !important;
+  z-index: 2 !important;
+}
+
+.cad-stage-slide img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+.cad-stage-badge {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  z-index: 4 !important;
+  background: rgba(15, 23, 42, 0.92) !important;
+  color: #FFFFFF !important;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace) !important;
+  font-size: 0.62rem !important;
+  font-weight: 600 !important;
+  padding: 4px 10px !important;
+  border-radius: 3px !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  letter-spacing: 0.05em !important;
+}
+
+.cad-stage-telemetry {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 4 !important;
+  padding: 16px 18px 12px 18px !important;
+  background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.88) 50%, #0F172A 100%) !important;
+  color: #FFFFFF !important;
+}
+
+.cad-stage-title {
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif) !important;
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  margin: 0 0 2px 0 !important;
+}
+
+.cad-stage-sub {
+  font-size: 0.76rem !important;
+  color: #94A3B8 !important;
+  margin: 0 0 4px 0 !important;
+}
+
+.cad-stage-code-meta {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace) !important;
+  font-size: 0.62rem !important;
+  color: #EA580C !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+/* 4-Step Indicator Segments */
+.cad-stage-stepper {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 8px !important;
+  margin-top: 12px !important;
+  padding-top: 8px !important;
+  border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+}
+
+.cad-stepper-segment {
+  height: 4px !important;
+  background-color: rgba(15, 23, 42, 0.08) !important;
+  border-radius: 2px !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.cad-stepper-segment.is-active {
+  background-color: #EA580C !important;
+  box-shadow: 0 0 8px rgba(234, 88, 12, 0.5) !important;
+}
+
+/* Tablet & Mobile Responsiveness */
+@media (max-width: 992px) {
+  .cad-matrix-spread {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  .cad-sticky-visual-stage {
+    position: relative !important;
+    top: 0 !important;
+    margin-bottom: 24px !important;
+  }
+
+  .cad-stage-viewport {
+    height: 240px !important;
+  }
+}

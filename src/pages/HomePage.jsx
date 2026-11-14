@@ -38,8 +38,8 @@ export default function HomePage({ onOpenModal }) {
       {/* Interactive Transformation Slider */}
       <BeforeAfter />
 
-      {/* 5-Stage Execution Framework */}
-      <Methodology />
+      {/* 5-Stage Execution Framework (Horizontal Right-to-Left Conduit) */}
+      <Methodology onOpenModal={onOpenModal} />
 
       {/* Landmark Projects Portfolio */}
       <Projects onOpenModal={onOpenModal} />

@@ -1,0 +1,388 @@
+/* ==========================================================================
+   AMBIENT ENGINEERS - 3D ISOMETRIC ARCHITECTURAL PRELOADER
+   Engineered with pure CSS 3D preserve-3d isometric assembly & dynamic lighting
+   ========================================================================== */
+
+.ambient-preloader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #F4F1EA;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  user-select: none;
+}
+
+.ambient-preloader-overlay.ambient-fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Background blueprint grid watermark */
+.ambient-preloader-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Central Stage */
+.ambient-preloader-stage {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 3D Isometric Loader Engine */
+.ambient-isometric-loader {
+  --duration: 3s;
+  --primary: #EA580C;
+  --primary-light: #FB923C;
+  --primary-rgba: rgba(234, 88, 12, 0);
+  --mask: #F4F1EA;
+  width: 200px;
+  height: 280px;
+  transform-style: preserve-3d;
+  zoom: 0.62;
+  position: relative;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 640px) {
+  .ambient-isometric-loader {
+    zoom: 0.48;
+    height: 240px;
+  }
+}
+
+/* Isometric Mask Cutouts */
+.ambient-isometric-loader:before,
+.ambient-isometric-loader:after {
+  --r: 20.5deg;
+  content: "";
+  background: var(--mask);
+  width: 320px;
+  height: 140px;
+  transform: translateZ(200px) rotate(var(--r));
+  animation: ambient-preloader-mask var(--duration) linear forwards infinite;
+  position: absolute;
+  bottom: -11px;
+  right: 32%;
+}
+
+.ambient-isometric-loader:after {
+  --r: -20.5deg;
+  left: 32%;
+  right: auto;
+}
+
+/* Isometric Ground Plane */
+.ambient-loader-ground {
+  transform-style: preserve-3d;
+  position: absolute;
+  bottom: -120px;
+  left: -50px;
+  transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(1);
+}
+
+.ambient-loader-ground div {
+  background: linear-gradient(45deg, var(--primary) 0%, var(--primary) 50%, var(--primary-light) 50%, var(--primary-light) 100%);
+  width: 200px;
+  height: 200px;
+  transform-style: preserve-3d;
+  animation: ambient-preloader-ground var(--duration) linear forwards infinite;
+  transform: rotateX(90deg) rotateY(0) translate(-48px, -120px) translateZ(100px) scale(0);
+}
+
+.ambient-loader-ground div:before,
+.ambient-loader-ground div:after {
+  --rx: 90deg;
+  --ry: 0deg;
+  --x: 44px;
+  --y: 162px;
+  --z: -50px;
+  content: "";
+  opacity: 0;
+  background: linear-gradient(var(--primary), var(--primary-rgba));
+  width: 156px;
+  height: 300px;
+  transform: rotateX(var(--rx)) rotateY(var(--ry)) translate(var(--x), var(--y)) translateZ(var(--z));
+  animation: ambient-preloader-ground-shine var(--duration) linear forwards infinite;
+  position: absolute;
+}
+
+.ambient-loader-ground div:after {
+  --rx: 90deg;
+  --ry: 90deg;
+  --x: 0;
+  --y: 177px;
+  --z: 150px;
+}
+
+/* Individual 3D Isometric Blocks */
+.ambient-iso-box {
+  --x: 0;
+  --y: 0;
+  animation: var(--duration) linear forwards infinite;
+  transform: translate(var(--x), var(--y));
+  position: absolute;
+}
+
+.ambient-iso-box div {
+  background-color: var(--primary);
+  width: 48px;
+  height: 48px;
+  transform-style: preserve-3d;
+  animation: var(--duration) ease forwards infinite;
+  position: relative;
+  transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(0);
+}
+
+/* Isometric Lighting Simulation with Filter Brightness */
+.ambient-iso-box div:before,
+.ambient-iso-box div:after {
+  --rx: 90deg;
+  --ry: 0deg;
+  --z: 24px;
+  --y: -24px;
+  --x: 0;
+  content: "";
+  background-color: inherit;
+  width: inherit;
+  height: inherit;
+  transform: rotateX(var(--rx)) rotateY(var(--ry)) translate(var(--x), var(--y)) translateZ(var(--z));
+  filter: brightness(var(--b, 1.25));
+  position: absolute;
+}
+
+.ambient-iso-box div:after {
+  --rx: 0deg;
+  --ry: 90deg;
+  --x: 24px;
+  --y: 0;
+  --b: 1.45;
+}
+
+/* 8 Staggered Block Positioning Coordinates */
+.ambient-box-0 { --x: -220px; --y: -120px; animation-name: amb-box-move-0; top: 108px; left: 58px; }
+.ambient-box-0 div { animation-name: amb-box-scale-0; }
+
+.ambient-box-1 { --x: -260px; --y: 120px;  animation-name: amb-box-move-1; top: 120px; left: 25px; }
+.ambient-box-1 div { animation-name: amb-box-scale-1; }
+
+.ambient-box-2 { --x: 120px;  --y: -190px; animation-name: amb-box-move-2; top: 64px;  left: 58px; }
+.ambient-box-2 div { animation-name: amb-box-scale-2; }
+
+.ambient-box-3 { --x: 280px;  --y: -40px;  animation-name: amb-box-move-3; top: 120px; left: 91px; }
+.ambient-box-3 div { animation-name: amb-box-scale-3; }
+
+.ambient-box-4 { --x: 60px;   --y: 200px;  animation-name: amb-box-move-4; top: 132px; left: 58px; }
+.ambient-box-4 div { animation-name: amb-box-scale-4; }
+
+.ambient-box-5 { --x: -220px; --y: -120px; animation-name: amb-box-move-5; top: 76px;  left: 25px; }
+.ambient-box-5 div { animation-name: amb-box-scale-5; }
+
+.ambient-box-6 { --x: -260px; --y: 120px;  animation-name: amb-box-move-6; top: 76px;  left: 91px; }
+.ambient-box-6 div { animation-name: amb-box-scale-6; }
+
+.ambient-box-7 { --x: -240px; --y: 200px;  animation-name: amb-box-move-7; top: 87px;  left: 58px; }
+.ambient-box-7 div { animation-name: amb-box-scale-7; }
+
+/* Mathematical Keyframes for the 8 Cubes */
+@keyframes amb-box-move-0 {
+  12% { transform: translate(var(--x), var(--y)); }
+  25%, 52% { transform: translate(0); }
+  80% { transform: translateY(-32px); }
+  90%, to { transform: translateY(188px); }
+}
+@keyframes amb-box-scale-0 {
+  6% { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(0); }
+  14%, to { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(1); }
+}
+
+@keyframes amb-box-move-1 {
+  16% { transform: translate(var(--x), var(--y)); }
+  29%, 52% { transform: translate(0); }
+  80% { transform: translateY(-32px); }
+  90%, to { transform: translateY(188px); }
+}
+@keyframes amb-box-scale-1 {
+  10% { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(0); }
+  18%, to { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(1); }
+}
+
+@keyframes amb-box-move-2 {
+  20% { transform: translate(var(--x), var(--y)); }
+  33%, 52% { transform: translate(0); }
+  80% { transform: translateY(-32px); }
+  90%, to { transform: translateY(188px); }
+}
+@keyframes amb-box-scale-2 {
+  14% { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(0); }
+  22%, to { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(1); }
+}
+
+@keyframes amb-box-move-3 {
+  24% { transform: translate(var(--x), var(--y)); }
+  37%, 52% { transform: translate(0); }
+  80% { transform: translateY(-32px); }
+  90%, to { transform: translateY(188px); }
+}
+@keyframes amb-box-scale-3 {
+  18% { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(0); }
+  26%, to { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(1); }
+}
+
+@keyframes amb-box-move-4 {
+  28% { transform: translate(var(--x), var(--y)); }
+  41%, 52% { transform: translate(0); }
+  80% { transform: translateY(-32px); }
+  90%, to { transform: translateY(188px); }
+}
+@keyframes amb-box-scale-4 {
+  22% { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(0); }
+  30%, to { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(1); }
+}
+
+@keyframes amb-box-move-5 {
+  32% { transform: translate(var(--x), var(--y)); }
+  45%, 52% { transform: translate(0); }
+  80% { transform: translateY(-32px); }
+  90%, to { transform: translateY(188px); }
+}
+@keyframes amb-box-scale-5 {
+  26% { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(0); }
+  34%, to { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(1); }
+}
+
+@keyframes amb-box-move-6 {
+  36% { transform: translate(var(--x), var(--y)); }
+  49%, 52% { transform: translate(0); }
+  80% { transform: translateY(-32px); }
+  90%, to { transform: translateY(188px); }
+}
+@keyframes amb-box-scale-6 {
+  30% { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(0); }
+  38%, to { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(1); }
+}
+
+@keyframes amb-box-move-7 {
+  40% { transform: translate(var(--x), var(--y)); }
+  53%, 52% { transform: translate(0); }
+  80% { transform: translateY(-32px); }
+  90%, to { transform: translateY(188px); }
+}
+@keyframes amb-box-scale-7 {
+  34% { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(0); }
+  42%, to { transform: rotateY(-47deg) rotateX(-15deg) rotate(15deg) scale(1); }
+}
+
+@keyframes ambient-preloader-ground {
+  0%, 65% {
+    transform: rotateX(90deg) rotateY(0) translate(-48px, -120px) translateZ(100px) scale(0);
+  }
+  75%, 90% {
+    transform: rotateX(90deg) rotateY(0) translate(-48px, -120px) translateZ(100px) scale(1);
+  }
+  to {
+    transform: rotateX(90deg) rotateY(0) translate(-48px, -120px) translateZ(100px) scale(0);
+  }
+}
+
+@keyframes ambient-preloader-ground-shine {
+  0%, 70% { opacity: 0; }
+  75%, 87% { opacity: 0.3; }
+  to { opacity: 0; }
+}
+
+@keyframes ambient-preloader-mask {
+  0%, 65% { opacity: 0; }
+  66%, to { opacity: 1; }
+}
+
+/* Telemetry & Brand Caption beneath 3D Loader */
+.ambient-preloader-telemetry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  z-index: 3;
+}
+
+.ambient-preloader-brand-title {
+  font-family: var(--font-mono, 'Space Grotesk', monospace);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: #0F172A;
+  text-transform: uppercase;
+}
+
+.ambient-preloader-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.05);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  padding: 5px 14px;
+  border-radius: 9999px;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: #334155;
+  text-transform: uppercase;
+}
+
+.ambient-preloader-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #EA580C;
+  box-shadow: 0 0 10px rgba(234, 88, 12, 0.8);
+  animation: ambient-preloader-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes ambient-preloader-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.4; }
+}
+
+.ambient-preloader-bar-wrap {
+  width: 140px;
+  height: 2px;
+  background: rgba(15, 23, 42, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.ambient-preloader-bar-fill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #EA580C, #FB923C);
+  transform-origin: left;
+  animation: ambient-preloader-progress 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes ambient-preloader-progress {
+  0% { transform: scaleX(0); }
+  30% { transform: scaleX(0.4); }
+  60% { transform: scaleX(0.75); }
+  100% { transform: scaleX(1); }
+}

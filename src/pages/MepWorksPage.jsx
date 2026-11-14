@@ -155,7 +155,7 @@ const mepLedgerRows = [
 export default function MepWorksPage({ onOpenModal }) {
   useEffect(() => {
     document.title = 'Turnkey MEP Contracting & Engineering | Ambient Engineers Lucknow';
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, []);
 
   return (

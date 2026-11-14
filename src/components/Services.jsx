@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import ScatteredDecor, {
   HVACDuctIllustration,
   VentilationIllustration,
@@ -16,6 +16,49 @@ const corePillars = [
 ];
 
 export default function Services({ onOpenModal }) {
+  const deckRef = useRef(null);
+
+  // Dynamic subtle scale & lighting as cards overlap into a physical binder deck
+  useEffect(() => {
+    const deck = deckRef.current;
+    if (!deck) return;
+    const cards = Array.from(deck.querySelectorAll('.cad-discipline-spread'));
+    if (!cards.length) return;
+
+    let rafId = null;
+    const handleScroll = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        const deckRect = deck.getBoundingClientRect();
+        if (deckRect.bottom < -100 || deckRect.top > window.innerHeight + 100) return;
+
+        cards.forEach((card, i) => {
+          if (i === cards.length - 1) return;
+          const nextCard = cards[i + 1];
+          const cardRect = card.getBoundingClientRect();
+          const nextRect = nextCard.getBoundingClientRect();
+
+          const overlap = Math.max(0, cardRect.bottom - nextRect.top);
+          const totalDistance = Math.max(cardRect.height, 1);
+          const progress = Math.min(Math.max(overlap / totalDistance, 0), 1);
+
+          const scale = 1 - progress * 0.035;
+          const brightness = 1 - progress * 0.07;
+          card.style.transform = `scale(${scale})`;
+          card.style.filter = `brightness(${brightness})`;
+        });
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
+
   return (
     <section className="cad-services-section" id="services">
       <ScatteredDecor section="services" />
@@ -55,9 +98,11 @@ export default function Services({ onOpenModal }) {
         </div>
 
         {/* ============================================================
-            DISCIPLINE 01: HVAC WORKS (COMFORT | EFFICIENCY | RELIABILITY)
+            4 CORE DISCIPLINES: STICKY STACKING DECK
             ============================================================ */}
-        <div className="cad-discipline-spread cad-hvac-spread">
+        <div className="cad-services-stack-deck" ref={deckRef}>
+          {/* DISCIPLINE 01: HVAC WORKS */}
+          <div className="cad-discipline-spread cad-hvac-spread" style={{ '--spread-index': 0 }}>
           <div className="cad-spread-header">
             <div className="cad-spread-title-box">
               <span className="cad-spread-num">DISCIPLINE // 01</span>
@@ -142,10 +187,8 @@ export default function Services({ onOpenModal }) {
           </div>
         </div>
 
-        {/* ============================================================
-            DISCIPLINE 02: MEP WORKS (INTEGRATED | SAFE | EFFICIENT)
-            ============================================================ */}
-        <div className="cad-discipline-spread cad-mep-spread">
+        {/* DISCIPLINE 02: MEP WORKS */}
+        <div className="cad-discipline-spread cad-mep-spread" style={{ '--spread-index': 1 }}>
           <div className="cad-spread-header">
             <div className="cad-spread-title-box">
               <span className="cad-spread-num">DISCIPLINE // 02</span>
@@ -230,10 +273,8 @@ export default function Services({ onOpenModal }) {
           </div>
         </div>
 
-        {/* ============================================================
-            DISCIPLINE 03: INTERIOR FIT-OUT WORKS
-            ============================================================ */}
-        <div className="cad-discipline-spread cad-fitout-spread">
+        {/* DISCIPLINE 03: INTERIOR FIT-OUT WORKS */}
+        <div className="cad-discipline-spread cad-fitout-spread" style={{ '--spread-index': 2 }}>
           <div className="cad-spread-header">
             <div className="cad-spread-title-box">
               <span className="cad-spread-num">DISCIPLINE // 03</span>
@@ -313,10 +354,8 @@ export default function Services({ onOpenModal }) {
           </div>
         </div>
 
-        {/* ============================================================
-            DISCIPLINE 04: AMC SERVICES
-            ============================================================ */}
-        <div className="cad-discipline-spread cad-amc-spread">
+        {/* DISCIPLINE 04: AMC SERVICES */}
+        <div className="cad-discipline-spread cad-amc-spread" style={{ '--spread-index': 3 }}>
           <div className="cad-spread-header">
             <div className="cad-spread-title-box">
               <span className="cad-spread-num">DISCIPLINE // 04</span>
@@ -390,6 +429,7 @@ export default function Services({ onOpenModal }) {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

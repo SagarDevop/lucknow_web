@@ -155,7 +155,7 @@ const hvacLedgerRows = [
 export default function HvacWorksPage({ onOpenModal }) {
   useEffect(() => {
     document.title = 'Commercial HVAC Engineering & VRF Systems | Ambient Engineers Lucknow';
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, []);
 
   return (

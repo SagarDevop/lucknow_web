@@ -133,7 +133,7 @@ const banquetLedgerRows = [
 export default function BanquetHallsIndustryPage({ onOpenModal }) {
   useEffect(() => {
     document.title = 'Banquet Halls & Hospitality Resorts | Ambient Engineers Lucknow';
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, []);
 
   return (

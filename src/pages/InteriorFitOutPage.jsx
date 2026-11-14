@@ -164,7 +164,7 @@ const fitoutLedgerRows = [
 export default function InteriorFitOutPage({ onOpenModal }) {
   useEffect(() => {
     document.title = 'Commercial Interior Fit-Out Contracting | Ambient Engineers Lucknow';
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, []);
 
   return (

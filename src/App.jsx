@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RouterProvider, useRouter } from './context/RouterContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ConsultationModal from './components/ConsultationModal';
+import Preloader from './components/Preloader';
+import { initScrollTriggers } from './utils/scrollTrigger';
+import './styles/scroll-stack.css';
 
 import HomePage from './pages/HomePage';
 import AboutUsPage from './pages/AboutUsPage';
@@ -26,7 +29,48 @@ function AppContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    try {
+      sessionStorage.setItem('ambient_consultation_popup_shown', 'true');
+    } catch (e) {}
+  };
+
+  // Instant top reset on route transitions without any scroll animation
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [currentPath]);
+
+  // Automatic Native ScrollTrigger observer on route transitions
+  useEffect(() => {
+    // Slight tick to let DOM render
+    const timeout = setTimeout(() => {
+      initScrollTriggers();
+    }, 100);
+
+    return () => clearTimeout(timeout);
+  }, [currentPath]);
+
+  // One-time automatic popup for first-time visitors
+  useEffect(() => {
+    try {
+      const hasSeenSession = sessionStorage.getItem('ambient_consultation_popup_shown');
+      const lastShownTs = localStorage.getItem('ambient_consultation_popup_ts');
+      const isWithin24Hours = lastShownTs && (Date.now() - parseInt(lastShownTs, 10) < 24 * 60 * 60 * 1000);
+
+      if (!hasSeenSession && !isWithin24Hours) {
+        const timer = setTimeout(() => {
+          setIsModalOpen(true);
+          sessionStorage.setItem('ambient_consultation_popup_shown', 'true');
+          localStorage.setItem('ambient_consultation_popup_ts', Date.now().toString());
+        }, 7500); // 7.5s smooth entry delay after enjoying preloader and hero
+
+        return () => clearTimeout(timer);
+      }
+    } catch (e) {
+      // Graceful fallback if storage disabled
+    }
+  }, []);
 
   const renderActiveRoute = () => {
     switch (currentPath) {
@@ -90,6 +134,9 @@ function AppContent() {
 
   return (
     <div className="app-container">
+      {/* 3D Isometric Architectural Preloader */}
+      <Preloader />
+
       {/* Precision CAD Site Header & Dropdown Navigation */}
       <Navbar onOpenModal={openModal} />
 
@@ -99,7 +146,7 @@ function AppContent() {
       {/* Global Architectural Footer */}
       <Footer onOpenModal={openModal} />
 
-      {/* Consultation Modal Dialog */}
+      {/* Technical Consultation Modal Dialog */}
       <ConsultationModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );

@@ -34,7 +34,7 @@ const pillarsDeepDive = [
 export default function WhyUsPage({ onOpenModal }) {
   useEffect(() => {
     document.title = 'Why Ambient Engineers — Competitive Advantage & Reliability';
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, []);
 
   return (

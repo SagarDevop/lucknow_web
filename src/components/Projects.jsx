@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ScatteredDecor from './ScatteredDecor';
 
 const completedProjects = [
@@ -135,99 +135,199 @@ const layers = [
 
 export default function Projects({ onOpenModal }) {
   const [activeLayer, setActiveLayer] = useState('all');
+  const wrapperRef = useRef(null);
+  const stickyRef = useRef(null);
+  const viewportRef = useRef(null);
+  const trackRef = useRef(null);
+  const progressFillRef = useRef(null);
+  const telemetryStatusRef = useRef(null);
 
   const filteredProjects =
     activeLayer === 'all'
       ? completedProjects
       : completedProjects.filter((p) => p.category === activeLayer);
 
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
+    if (!wrapper || !viewport || !track) return;
+
+    let maxDistance = 0;
+    let totalTravel = 0;
+
+    const calculateMetrics = () => {
+      const trackWidth = track.scrollWidth;
+      const viewportWidth = viewport.clientWidth;
+      maxDistance = Math.max(0, trackWidth - viewportWidth);
+
+      // Ergonomic scroll travel distance: maps horizontal width to smooth vertical scroll
+      totalTravel = Math.max(maxDistance * 1.15, 600);
+
+      // Parent runway height
+      wrapper.style.height = `${window.innerHeight + totalTravel}px`;
+    };
+
+    calculateMetrics();
+
+    const resizeObserver = new ResizeObserver(() => {
+      calculateMetrics();
+      updateScroll();
+    });
+    resizeObserver.observe(viewport);
+    resizeObserver.observe(track);
+    window.addEventListener('resize', calculateMetrics);
+
+    let rafId = null;
+    const updateScroll = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        if (!wrapper || !track) return;
+
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const scrolled = -wrapperRect.top;
+        const progress = Math.min(Math.max(scrolled / totalTravel, 0), 1);
+
+        const currentX = -(progress * maxDistance);
+        track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+
+        if (progressFillRef.current) {
+          progressFillRef.current.style.width = `${progress * 100}%`;
+        }
+
+        if (telemetryStatusRef.current) {
+          const totalCards = filteredProjects.length;
+          const activeIndex = Math.min(
+            Math.floor(progress * totalCards),
+            totalCards - 1
+          );
+          const currentCode = filteredProjects[activeIndex]?.code || 'PRJ-LKO-01';
+          telemetryStatusRef.current.textContent = `[ ACTIVE: ${currentCode} | ${Math.round(progress * 100)}% ]`;
+        }
+      });
+    };
+
+    window.addEventListener('scroll', updateScroll, { passive: true });
+    updateScroll();
+
+    return () => {
+      window.removeEventListener('scroll', updateScroll);
+      window.removeEventListener('resize', calculateMetrics);
+      resizeObserver.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [filteredProjects]);
+
   return (
     <section className="cad-projects-section" id="projects">
       <ScatteredDecor section="projects" />
 
-      <div className="cad-editorial-container">
-        {/* Section Header */}
-        <div className="cad-spec-header">
-          <span className="cad-spec-dot"></span>
-          <span className="cad-spec-code">ARCHIVE // AMB-PRJ-12</span>
-          <span className="cad-spec-divider">|</span>
-          <span className="cad-spec-title">OFFICIAL COMMERCIAL PROJECT ARCHIVE</span>
-        </div>
+      {/* ============================================================
+          SCROLL-CONTROLLED STICKY HORIZONTAL RUNWAY
+          ============================================================ */}
+      <div className="cad-projects-scroll-wrapper" ref={wrapperRef}>
+        <div className="cad-projects-sticky-window" ref={stickyRef}>
+          <div className="cad-editorial-container">
+            {/* Section Header (Stationary) */}
+            <div className="cad-spec-header">
+              <span className="cad-spec-dot"></span>
+              <span className="cad-spec-code">ARCHIVE // AMB-PRJ-12</span>
+              <span className="cad-spec-divider">|</span>
+              <span className="cad-spec-title">OFFICIAL COMMERCIAL PROJECT ARCHIVE</span>
+            </div>
 
-        <div className="cad-projects-heading-box">
-          <div className="cad-heading-left">
-            <h2 className="cad-projects-title">
-              PROJECTS WE COMPLETED &bull; <span className="cad-headline-accent">MASTER ARCHIVE</span>
-            </h2>
-            <p className="cad-projects-lead">
-              Verified turnkey engineering deployments across Uttar Pradesh. Explore our landmark retail flagships, banking hubs, luxury banquets, and heavy industrial installations.
-            </p>
-          </div>
-
-          <div className="cad-heading-right">
-            <button type="button" className="cad-btn-editorial" onClick={onOpenModal}>
-              <span>ENQUIRE SIMILAR SCOPE</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* CAD Layer Selector */}
-        <div className="cad-layer-selector">
-          <span className="cad-selector-label">CAD FILTER:</span>
-          {layers.map((layer) => (
-            <button
-              key={layer.id}
-              type="button"
-              className={`cad-layer-btn ${activeLayer === layer.id ? 'active' : ''}`}
-              onClick={() => setActiveLayer(layer.id)}
-            >
-              <span>{layer.label}</span>
-              <span className="cad-layer-pill">({layer.count})</span>
-            </button>
-          ))}
-        </div>
-
-        {/* Immersive Projects Gallery with Brochure Pin Badges */}
-        <div className="cad-projects-gallery">
-          {filteredProjects.map((prj, idx) => (
-            <div key={idx} className="cad-project-card">
-              <div className="cad-card-viewport">
-                <span className="cad-bracket cad-bracket-tl">┌</span>
-                <span className="cad-bracket cad-bracket-tr">┐</span>
-                <span className="cad-bracket cad-bracket-bl">└</span>
-                <span className="cad-bracket cad-bracket-br">┘</span>
-                <img src={prj.img} alt={prj.title} loading="lazy" />
-                <div className="cad-card-telemetry">
-                  <span className="cad-prj-code">{prj.code}</span>
-                  <span className="cad-prj-gps">{prj.gps}</span>
-                </div>
+            {/* Section Headline (Stationary) */}
+            <div className="cad-projects-heading-box">
+              <div className="cad-heading-left">
+                <h2 className="cad-projects-title">
+                  PROJECTS WE COMPLETED &bull; <span className="cad-headline-accent">MASTER ARCHIVE</span>
+                </h2>
+                <p className="cad-projects-lead">
+                  Verified turnkey engineering deployments across Uttar Pradesh. Explore our landmark retail flagships, banking hubs, luxury banquets, and heavy industrial installations.
+                </p>
               </div>
 
-              <div className="cad-card-meta">
-                {/* Official Brochure Pin Marker Bar */}
-                <div className="cad-brochure-pin-row">
-                  <div className="cad-brochure-pin-badge" title={prj.location}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#EA580C">
-                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                    </svg>
-                  </div>
-                  <div className="cad-brochure-pin-info">
-                    <h3 className="cad-brochure-prj-name">{prj.title}</h3>
-                    <span className="cad-brochure-loc">{prj.location}</span>
-                  </div>
-                </div>
-
-                <div className="cad-meta-subline">
-                  <span className="cad-meta-category">{prj.categoryLabel}</span>
-                  <p className="cad-meta-scope">{prj.scope}</p>
-                </div>
+              <div className="cad-heading-right">
+                <button type="button" className="cad-btn-editorial" onClick={onOpenModal}>
+                  <span>ENQUIRE SIMILAR SCOPE</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </button>
               </div>
             </div>
-          ))}
+
+            {/* CAD Layer Selector (Stationary) */}
+            <div className="cad-layer-selector">
+              <span className="cad-selector-label">CAD FILTER:</span>
+              {layers.map((layer) => (
+                <button
+                  key={layer.id}
+                  type="button"
+                  className={`cad-layer-btn ${activeLayer === layer.id ? 'active' : ''}`}
+                  onClick={() => setActiveLayer(layer.id)}
+                >
+                  <span>{layer.label}</span>
+                  <span className="cad-layer-pill">({layer.count})</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Track Viewport for Horizontal Cards */}
+            <div className="cad-projects-track-viewport" ref={viewportRef}>
+              <div className="cad-projects-horizontal-track" ref={trackRef}>
+                {filteredProjects.map((prj, idx) => (
+                  <div key={idx} className="cad-project-card">
+                    <div className="cad-card-viewport">
+                      <span className="cad-bracket cad-bracket-tl">┌</span>
+                      <span className="cad-bracket cad-bracket-tr">┐</span>
+                      <span className="cad-bracket cad-bracket-bl">└</span>
+                      <span className="cad-bracket cad-bracket-br">┘</span>
+                      <img src={prj.img} alt={prj.title} loading="lazy" />
+                      <div className="cad-card-telemetry">
+                        <span className="cad-prj-code">{prj.code}</span>
+                        <span className="cad-prj-gps">{prj.gps}</span>
+                      </div>
+                    </div>
+
+                    <div className="cad-card-meta">
+                      {/* Official Brochure Pin Marker Bar */}
+                      <div className="cad-brochure-pin-row">
+                        <div className="cad-brochure-pin-badge" title={prj.location}>
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="#EA580C">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                          </svg>
+                        </div>
+                        <div className="cad-brochure-pin-info">
+                          <h3 className="cad-brochure-prj-name">{prj.title}</h3>
+                          <span className="cad-brochure-loc">{prj.location}</span>
+                        </div>
+                      </div>
+
+                      <div className="cad-meta-subline">
+                        <span className="cad-meta-category">{prj.categoryLabel}</span>
+                        <p className="cad-meta-scope">{prj.scope}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Telemetry Status Bar & Visual Progress Indicator */}
+            <div className="cad-projects-telemetry-bar">
+              <div className="cad-projects-telemetry-pill">
+                <span className="cad-projects-telemetry-dot"></span>
+                <span>PROJECT ARCHIVE CONDUIT &bull; 01 TO {filteredProjects.length}</span>
+              </div>
+              <div className="cad-projects-track-indicator">
+                <div className="cad-projects-track-fill" ref={progressFillRef}></div>
+              </div>
+              <span ref={telemetryStatusRef}>[ ACTIVE: {filteredProjects[0]?.code || 'PRJ-LKO-01'} | 0% ]</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

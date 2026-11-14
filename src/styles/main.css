@@ -4,6 +4,7 @@
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+@import './scroll-stack.css';
 
 :root {
   /* Design System Colors */
@@ -63,7 +64,7 @@
 html {
   font-family: var(--font-main);
   font-size: 16px;
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Instant jump on page change; smooth scroll used explicitly for intra-page anchors */
   color: var(--text-primary);
   background-color: var(--bg-primary);
   -webkit-font-smoothing: antialiased;
@@ -72,7 +73,7 @@ html {
 
 body {
   line-height: 1.6;
-  overflow-x: hidden;
+  overflow-x: clip;
   background-color: var(--bg-primary);
 }
 
@@ -883,7 +884,7 @@ body {
   background-color: #FAFAF8;
   color: #0F172A;
   font-family: var(--font-main, 'Plus Jakarta Sans', sans-serif);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .cad-editorial-container {
@@ -895,14 +896,10 @@ body {
 }
 
 /* Subtle CAD Grid Background Texture for Sections Below Hero */
-.cad-about-editorial,
 .cad-mv-section,
-.cad-services-section,
-.cad-industries-section,
 .cad-why-section,
 .cad-before-after-section,
 .cad-methodology-section,
-.cad-projects-section,
 .cad-cta-desk {
   position: relative;
   background-color: #FAFAF8;
@@ -912,6 +909,50 @@ body {
   border-bottom: 1px solid rgba(15, 23, 42, 0.08);
   padding: 100px 0;
   overflow: hidden;
+}
+
+.cad-about-editorial {
+  position: relative;
+  background-color: #FAFAF8;
+  background-image: 
+    radial-gradient(circle at 1px 1px, rgba(15, 23, 42, 0.04) 1px, transparent 0);
+  background-size: 32px 32px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 100px 0;
+  overflow: visible !important;
+}
+
+.cad-services-section {
+  position: relative;
+  background-color: #FAFAF8;
+  background-image: 
+    radial-gradient(circle at 1px 1px, rgba(15, 23, 42, 0.04) 1px, transparent 0);
+  background-size: 32px 32px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 100px 0;
+  overflow: visible !important;
+}
+
+.cad-industries-section {
+  position: relative;
+  background-color: #FAFAF8;
+  background-image: 
+    radial-gradient(circle at 1px 1px, rgba(15, 23, 42, 0.04) 1px, transparent 0);
+  background-size: 32px 32px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.cad-projects-section {
+  position: relative;
+  background-color: #FAFAF8;
+  background-image: 
+    radial-gradient(circle at 1px 1px, rgba(15, 23, 42, 0.04) 1px, transparent 0);
+  background-size: 32px 32px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 0 !important;
+  overflow: visible !important;
 }
 
 /* Section Header Datum Bar */
@@ -1781,13 +1822,43 @@ body {
   color: #64748B;
 }
 
-/* Discipline Spreads */
+/* Discipline Spreads: Sticky Stacking Architecture */
 .cad-discipline-spread {
-  margin-bottom: 60px;
-  background-color: #FFFFFF;
-  border: 1px solid rgba(15, 23, 42, 0.1);
-  padding: 40px;
-  position: relative;
+  margin-bottom: 40px !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid rgba(15, 23, 42, 0.16) !important;
+  border-radius: 8px !important;
+  padding: 20px 28px !important;
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  box-shadow: 0 -12px 30px rgba(15, 23, 42, 0.1), 0 20px 48px rgba(15, 23, 42, 0.12) !important;
+  transform-origin: center top;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, filter;
+}
+
+.cad-discipline-spread:nth-child(1) {
+  top: 86px !important;
+  z-index: 10 !important;
+  margin-bottom: 40px !important;
+}
+
+.cad-discipline-spread:nth-child(2) {
+  top: 146px !important;
+  z-index: 20 !important;
+  margin-bottom: 40px !important;
+}
+
+.cad-discipline-spread:nth-child(3) {
+  top: 206px !important;
+  z-index: 30 !important;
+  margin-bottom: 40px !important;
+}
+
+.cad-discipline-spread:nth-child(4) {
+  top: 266px !important;
+  z-index: 40 !important;
+  margin-bottom: 60px !important;
 }
 
 .cad-spread-header {
@@ -5711,7 +5782,7 @@ body {
 
 /* 1. Global Viewport Safety */
 html, body {
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
   width: 100% !important;
   max-width: 100vw !important;
   box-sizing: border-box;
@@ -5722,7 +5793,7 @@ html, body {
 }
 
 .cad-page-wrapper {
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
   width: 100% !important;
   max-width: 100vw !important;
 }
@@ -6318,5 +6389,387 @@ img, video {
 
   .cad-project-strip-media {
     height: 180px !important;
+  }
+}
+
+
+/* ==========================================================================
+   19. ARCHITECTURAL CONSULTATION MODAL & DIRECT RFP POPUP
+   ========================================================================== */
+
+.cad-modal-overlay,
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(10, 18, 30, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cad-modal-overlay.active,
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cad-modal-box,
+.modal-box {
+  background: #FFFFFF;
+  border: 1px solid #0F172A;
+  border-top: 4px solid var(--accent-orange, #EA580C);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+  max-width: 680px;
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 36px 34px;
+  transform: translateY(24px) scale(0.98);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.cad-modal-overlay.active .cad-modal-box,
+.modal-overlay.active .modal-box {
+  transform: translateY(0) scale(1);
+}
+
+/* CAD Corner Brackets */
+.cad-modal-box .cad-bracket {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.15rem;
+  color: var(--accent-orange, #EA580C);
+  line-height: 1;
+  pointer-events: none;
+  font-weight: 700;
+}
+
+.cad-modal-box .cad-bracket-tl { top: 8px; left: 8px; }
+.cad-modal-box .cad-bracket-tr { top: 8px; right: 8px; }
+.cad-modal-box .cad-bracket-bl { bottom: 8px; left: 8px; }
+.cad-modal-box .cad-bracket-br { bottom: 8px; right: 8px; }
+
+/* Modal Close Button */
+.cad-modal-close-btn,
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  background-color: #F8FAFC;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #0F172A;
+  font-size: 1.35rem;
+  line-height: 1;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.cad-modal-close-btn:hover,
+.modal-close:hover {
+  background-color: var(--accent-orange, #EA580C);
+  color: #FFFFFF;
+  border-color: var(--accent-orange, #EA580C);
+  transform: rotate(90deg);
+}
+
+/* Header & Telemetry */
+.cad-modal-header {
+  margin-bottom: 18px;
+  padding-right: 36px;
+}
+
+.cad-modal-spec-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--accent-orange, #EA580C);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.cad-modal-spec-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-orange, #EA580C);
+}
+
+.cad-modal-title {
+  font-size: 1.42rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.cad-modal-desc {
+  font-size: 0.85rem;
+  color: #64748B;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Trust Bar */
+.cad-modal-trust-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 10px 14px;
+  background: #F8FAFC;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  margin-bottom: 20px;
+}
+
+.cad-modal-trust-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.cad-modal-trust-item svg {
+  color: var(--accent-orange, #EA580C);
+}
+
+/* Form Styles */
+.cad-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cad-modal-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.cad-modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cad-modal-field label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #0F172A;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cad-modal-field label span.req {
+  color: var(--accent-orange, #EA580C);
+  margin-left: 2px;
+}
+
+.cad-modal-input,
+.cad-modal-select,
+.cad-modal-textarea {
+  width: 100%;
+  padding: 11px 14px;
+  background: #FFFFFF;
+  border: 1px solid rgba(15, 23, 42, 0.18);
+  font-family: var(--font-main, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.88rem;
+  color: #0F172A;
+  border-radius: 0;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.cad-modal-input::placeholder,
+.cad-modal-textarea::placeholder {
+  color: #94A3B8;
+  font-size: 0.82rem;
+}
+
+.cad-modal-input:focus,
+.cad-modal-select:focus,
+.cad-modal-textarea:focus {
+  outline: none;
+  border-color: var(--accent-orange, #EA580C);
+  box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.12);
+}
+
+.cad-modal-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230F172A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 14px;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.cad-modal-textarea {
+  resize: vertical;
+  min-height: 68px;
+}
+
+/* Submit Action Button */
+.cad-modal-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 13px 22px;
+  background-color: #0F172A;
+  color: #FFFFFF;
+  border: 1px solid #0F172A;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-top: 4px;
+}
+
+.cad-modal-submit-btn:hover {
+  background-color: var(--accent-orange, #EA580C);
+  border-color: var(--accent-orange, #EA580C);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(234, 88, 12, 0.25);
+}
+
+.cad-modal-submit-btn svg {
+  transition: transform 0.2s ease;
+}
+
+.cad-modal-submit-btn:hover svg {
+  transform: translateX(4px);
+}
+
+.cad-modal-footnote {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.64rem;
+  color: #64748B;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cad-modal-footnote a {
+  color: var(--accent-orange, #EA580C);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+/* Success Confirmation Box */
+.cad-modal-success {
+  padding: 30px 10px;
+  text-align: center;
+}
+
+.cad-modal-success-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(22, 163, 74, 0.12);
+  color: #16A34A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  border: 1px solid rgba(22, 163, 74, 0.25);
+}
+
+.cad-modal-success-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.cad-modal-success-desc {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.6;
+  max-width: 480px;
+  margin: 0 auto 16px;
+}
+
+.cad-modal-success-ref {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #F1F5F9;
+  border: 1px dashed rgba(15, 23, 42, 0.2);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+/* Modal Responsive Rules */
+@media (max-width: 640px) {
+  .cad-modal-box,
+  .modal-box {
+    padding: 22px 16px !important;
+    max-width: 100% !important;
+  }
+
+  .cad-modal-row {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .cad-modal-title {
+    font-size: 1.2rem !important;
+  }
+
+  .cad-modal-trust-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 8px 12px;
+  }
+
+  .cad-modal-input,
+  .cad-modal-select,
+  .cad-modal-textarea {
+    font-size: 16px !important; /* Prevents auto-zoom on iOS */
+    padding: 10px 12px !important;
+  }
+
+  .cad-modal-submit-btn {
+    padding: 12px 18px !important;
+    font-size: 0.76rem !important;
+  }
+
+  .cad-modal-footnote {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
