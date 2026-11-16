@@ -90,7 +90,7 @@ export default function Navbar({ onOpenModal }) {
             }}
             aria-label="Ambient Engineers Home"
           >
-            <img src="/images/logo.svg" alt="Ambient Engineers" width="180" height="38" />
+            <img src="/images/logo.png" alt="Ambient Engineers" width="138" height="50" className="cad-brand-img" />
           </a>
 
           {/* Centered Desktop Navigation Bar */}
@@ -455,7 +455,7 @@ export default function Navbar({ onOpenModal }) {
       {/* Mobile Drawer Navigation Menu */}
       <aside className={`cad-mobile-drawer ${drawerOpen ? 'active' : ''}`} aria-label="Mobile Navigation">
         <div className="cad-drawer-top">
-          <img src="/images/logo.svg" alt="Ambient Engineers" width="160" height="34" />
+          <img src="/images/logo.png" alt="Ambient Engineers" width="130" height="47" className="cad-brand-img" />
           <button
             type="button"
             className="cad-drawer-close"

@@ -3467,9 +3467,11 @@ body {
 }
 
 .cad-brand-logo img {
-  height: 38px;
+  height: 48px;
   width: auto;
+  max-width: 170px;
   display: block;
+  object-fit: contain;
 }
 
 /* Centered Desktop Navigation Menu (Dead Center) */
