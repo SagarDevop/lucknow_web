@@ -1,0 +1,282 @@
+{
+  "chiller_plant": [
+    {
+      "id": "19016904",
+      "file": "scratch/staging/downloads/chiller_plant/19016904.jpg",
+      "size": [
+        1200,
+        1200
+      ],
+      "kb": 315.1
+    },
+    {
+      "id": "37913513",
+      "file": "scratch/staging/downloads/chiller_plant/37913513.jpg",
+      "size": [
+        1200,
+        800
+      ],
+      "kb": 207.9
+    }
+  ],
+  "hvac_ducting": [
+    {
+      "id": "11538226",
+      "file": "scratch/staging/downloads/hvac_ducting/11538226.jpg",
+      "size": [
+        1200,
+        800
+      ],
+      "kb": 89.4
+    },
+    {
+      "id": "3964617",
+      "file": "scratch/staging/downloads/hvac_ducting/3964617.jpg",
+      "size": [
+        1200,
+        802
+      ],
+      "kb": 196.1
+    }
+  ],
+  "electrical_panel": [
+    {
+      "id": "39639325",
+      "file": "scratch/staging/downloads/electrical_panel/39639325.jpg",
+      "size": [
+        1200,
+        1600
+      ],
+      "kb": 218.8
+    },
+    {
+      "id": "12207608",
+      "file": "scratch/staging/downloads/electrical_panel/12207608.jpg",
+      "size": [
+        1200,
+        1800
+      ],
+      "kb": 312.0
+    }
+  ],
+  "fire_fighting": [
+    {
+      "id": "37352142",
+      "file": "scratch/staging/downloads/fire_fighting/37352142.jpg",
+      "size": [
+        1200,
+        900
+      ],
+      "kb": 211.5
+    },
+    {
+      "id": "23408532",
+      "file": "scratch/staging/downloads/fire_fighting/23408532.jpg",
+      "size": [
+        1200,
+        2683
+      ],
+      "kb": 537.1
+    }
+  ],
+  "indian_engineers": [
+    {
+      "id": "30580527",
+      "file": "scratch/staging/downloads/indian_engineers/30580527.jpg",
+      "size": [
+        1200,
+        800
+      ],
+      "kb": 93.5
+    },
+    {
+      "id": "12075976",
+      "file": "scratch/staging/downloads/indian_engineers/12075976.jpg",
+      "size": [
+        1200,
+        800
+      ],
+      "kb": 57.1
+    }
+  ],
+  "indian_technician": [
+    {
+      "id": "21812143",
+      "file": "scratch/staging/downloads/indian_technician/21812143.jpg",
+      "size": [
+        1200,
+        1594
+      ],
+      "kb": 294.2
+    },
+    {
+      "id": "34526423",
+      "file": "scratch/staging/downloads/indian_technician/34526423.jpg",
+      "size": [
+        1200,
+        800
+      ],
+      "kb": 156.6
+    }
+  ],
+  "indian_office": [
+    {
+      "id": "33827309",
+      "file": "scratch/staging/downloads/indian_office/33827309.jpg",
+      "size": [
+        1200,
+        800
+      ],
+      "kb": 102.0
+    },
+    {
+      "id": "35188667",
+      "file": "scratch/staging/downloads/indian_office/35188667.jpg",
+      "size": [
+        1200,
+        800
+      ],
+      "kb": 81.2
+    }
+  ],
+  "indian_bank": [
+    {
+      "id": "36328523",
+      "file": "scratch/staging/downloads/indian_bank/36328523.jpg",
+      "size": [
+        1200,
+        675
+      ],
+      "kb": 102.3
+    },
+    {
+      "id": "35188667",
+      "file": "scratch/staging/downloads/indian_bank/35188667.jpg",
+      "size": [
+        1200,
+        800
+      ],
+      "kb": 81.2
+    }
+  ],
+  "indian_banquet": [
+    {
+      "id": "4717550",
+      "file": "scratch/staging/downloads/indian_banquet/4717550.jpg",
+      "size": [
+        1200,
+        800
+      ],
+      "kb": 232.2
+    },
+    {
+      "id": "30215011",
+      "file": "scratch/staging/downloads/indian_banquet/30215011.jpg",
+      "size": [
+        1200,
+        800
+      ],
+      "kb": 156.4
+    }
+  ],
+  "car_showroom": [
+    {
+      "id": "16176576",
+      "file": "scratch/staging/downloads/car_showroom/16176576.jpg",
+      "size": [
+        1200,
+        1800
+      ],
+      "kb": 133.9
+    },
+    {
+      "id": "395537",
+      "file": "scratch/staging/downloads/car_showroom/395537.jpg",
+      "size": [
+        1200,
+        675
+      ],
+      "kb": 120.2
+    }
+  ],
+  "retail_store": [
+    {
+      "id": "8386654",
+      "file": "scratch/staging/downloads/retail_store/8386654.jpg",
+      "size": [
+        1200,
+        1800
+      ],
+      "kb": 209.2
+    },
+    {
+      "id": "8311880",
+      "file": "scratch/staging/downloads/retail_store/8311880.jpg",
+      "size": [
+        1200,
+        800
+      ],
+      "kb": 135.6
+    }
+  ],
+  "indian_skyline": [
+    {
+      "id": "37308276",
+      "file": "scratch/staging/downloads/indian_skyline/37308276.jpg",
+      "size": [
+        1200,
+        1600
+      ],
+      "kb": 384.6
+    },
+    {
+      "id": "7104646",
+      "file": "scratch/staging/downloads/indian_skyline/7104646.jpg",
+      "size": [
+        1200,
+        900
+      ],
+      "kb": 268.1
+    }
+  ],
+  "corporate_reception": [
+    {
+      "id": "19893586",
+      "file": "scratch/staging/downloads/corporate_reception/19893586.jpg",
+      "size": [
+        1200,
+        821
+      ],
+      "kb": 137.7
+    },
+    {
+      "id": "36356065",
+      "file": "scratch/staging/downloads/corporate_reception/36356065.jpg",
+      "size": [
+        1200,
+        800
+      ],
+      "kb": 57.0
+    }
+  ],
+  "indian_team": [
+    {
+      "id": "7580648",
+      "file": "scratch/staging/downloads/indian_team/7580648.jpg",
+      "size": [
+        1200,
+        800
+      ],
+      "kb": 108.5
+    },
+    {
+      "id": "7581016",
+      "file": "scratch/staging/downloads/indian_team/7581016.jpg",
+      "size": [
+        1200,
+        1800
+      ],
+      "kb": 189.2
+    }
+  ]
+}

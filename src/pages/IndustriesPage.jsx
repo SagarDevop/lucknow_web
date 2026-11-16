@@ -180,7 +180,7 @@ export default function IndustriesPage({ onOpenModal }) {
                   playsInline
                   preload="auto"
                 >
-                  <source src="/videos/hero-architectural-illustration.mp4" type="video/mp4" />
+                  <source src="/videos/industry-commercial.mp4" type="video/mp4" />
                 </video>
                 <div className="cad-viewport-telemetry">
                   <div className="cad-video-indicator">

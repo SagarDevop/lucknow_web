@@ -1,0 +1,245 @@
+{
+  "indian_engineer_site": [
+    {
+      "id": "8961134",
+      "path": "scratch/staging/indian_engineer_site/8961134.jpg",
+      "size": [
+        1400,
+        2100
+      ],
+      "kb": 294.3
+    },
+    {
+      "id": "7580643",
+      "path": "scratch/staging/indian_engineer_site/7580643.jpg",
+      "size": [
+        1400,
+        933
+      ],
+      "kb": 135.9
+    },
+    {
+      "id": "13875093",
+      "path": "scratch/staging/indian_engineer_site/13875093.jpg",
+      "size": [
+        1400,
+        897
+      ],
+      "kb": 171.2
+    }
+  ],
+  "indian_electrician": [
+    {
+      "id": "35154098",
+      "path": "scratch/staging/indian_electrician/35154098.jpg",
+      "size": [
+        1400,
+        1584
+      ],
+      "kb": 246.4
+    },
+    {
+      "id": "5806812",
+      "path": "scratch/staging/indian_electrician/5806812.jpg",
+      "size": [
+        1400,
+        2488
+      ],
+      "kb": 182.6
+    },
+    {
+      "id": "33694016",
+      "path": "scratch/staging/indian_electrician/33694016.jpg",
+      "size": [
+        1400,
+        2489
+      ],
+      "kb": 313.2
+    }
+  ],
+  "indian_commercial_facade": [
+    {
+      "id": "35469883",
+      "path": "scratch/staging/indian_commercial_facade/35469883.jpg",
+      "size": [
+        1400,
+        1867
+      ],
+      "kb": 268.3
+    },
+    {
+      "id": "6650984",
+      "path": "scratch/staging/indian_commercial_facade/6650984.jpg",
+      "size": [
+        1400,
+        1750
+      ],
+      "kb": 271.4
+    }
+  ],
+  "luxury_corporate_reception": [
+    {
+      "id": "32978233",
+      "path": "scratch/staging/luxury_corporate_reception/32978233.jpg",
+      "size": [
+        1400,
+        2489
+      ],
+      "kb": 457.8
+    },
+    {
+      "id": "35058546",
+      "path": "scratch/staging/luxury_corporate_reception/35058546.jpg",
+      "size": [
+        1400,
+        1000
+      ],
+      "kb": 242.3
+    },
+    {
+      "id": "14841129",
+      "path": "scratch/staging/luxury_corporate_reception/14841129.jpg",
+      "size": [
+        1400,
+        2100
+      ],
+      "kb": 351.0
+    }
+  ],
+  "commercial_switchgear": [
+    {
+      "id": "39639325",
+      "path": "scratch/staging/commercial_switchgear/39639325.jpg",
+      "size": [
+        1400,
+        1867
+      ],
+      "kb": 283.6
+    },
+    {
+      "id": "12207608",
+      "path": "scratch/staging/commercial_switchgear/12207608.jpg",
+      "size": [
+        1400,
+        2100
+      ],
+      "kb": 398.8
+    },
+    {
+      "id": "9242887",
+      "path": "scratch/staging/commercial_switchgear/9242887.jpg",
+      "size": [
+        1400,
+        933
+      ],
+      "kb": 132.1
+    }
+  ],
+  "indian_corporate_workspace": [
+    {
+      "id": "33827309",
+      "path": "scratch/staging/indian_corporate_workspace/33827309.jpg",
+      "size": [
+        1400,
+        933
+      ],
+      "kb": 134.6
+    },
+    {
+      "id": "35188667",
+      "path": "scratch/staging/indian_corporate_workspace/35188667.jpg",
+      "size": [
+        1400,
+        933
+      ],
+      "kb": 103.5
+    }
+  ],
+  "indian_bank_branch": [
+    {
+      "id": "13674041",
+      "path": "scratch/staging/indian_bank_branch/13674041.jpg",
+      "size": [
+        1400,
+        933
+      ],
+      "kb": 83.8
+    },
+    {
+      "id": "37201873",
+      "path": "scratch/staging/indian_bank_branch/37201873.jpg",
+      "size": [
+        1400,
+        933
+      ],
+      "kb": 196.5
+    },
+    {
+      "id": "35188667",
+      "path": "scratch/staging/indian_bank_branch/35188667.jpg",
+      "size": [
+        1400,
+        933
+      ],
+      "kb": 103.5
+    }
+  ],
+  "luxury_car_showroom": [
+    {
+      "id": "18108314",
+      "path": "scratch/staging/luxury_car_showroom/18108314.jpg",
+      "size": [
+        1400,
+        934
+      ],
+      "kb": 179.3
+    },
+    {
+      "id": "395537",
+      "path": "scratch/staging/luxury_car_showroom/395537.jpg",
+      "size": [
+        1400,
+        788
+      ],
+      "kb": 151.7
+    },
+    {
+      "id": "29566891",
+      "path": "scratch/staging/luxury_car_showroom/29566891.jpg",
+      "size": [
+        1400,
+        2100
+      ],
+      "kb": 208.5
+    }
+  ],
+  "indian_supermarket_retail": [
+    {
+      "id": "15491784",
+      "path": "scratch/staging/indian_supermarket_retail/15491784.jpg",
+      "size": [
+        1400,
+        2100
+      ],
+      "kb": 368.2
+    },
+    {
+      "id": "19332579",
+      "path": "scratch/staging/indian_supermarket_retail/19332579.jpg",
+      "size": [
+        1400,
+        1867
+      ],
+      "kb": 537.9
+    },
+    {
+      "id": "31266794",
+      "path": "scratch/staging/indian_supermarket_retail/31266794.jpg",
+      "size": [
+        1400,
+        2488
+      ],
+      "kb": 361.0
+    }
+  ]
+}
